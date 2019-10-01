@@ -9,6 +9,7 @@ namespace SIGBOT
     class Bot
     {
         DiscordClient client;
+        Controller controller = new Controller();
 
         public Bot(string token)
         {
@@ -31,10 +32,23 @@ namespace SIGBOT
 
         void RegisterEvents(DiscordClient client)
         {
-            client.MessageCreated += async e =>
+            client.MessageReactionAdded += async react =>
             {
-                if (e.Message.Content.ToLower().StartsWith("ping"))
-                    await e.Message.RespondAsync("pong!");
+                Console.WriteLine("reaction!");
+                Console.WriteLine(react.User.Presence.Guild);
+            };
+
+            client.MessageCreated += async messageCreate =>
+            {
+                var command = messageCreate.Message.Content.ToLower();
+                if (controller.ContainsKey(command))
+                {
+                    await controller[command].Execute(
+                        messageCreate.Author,
+                        messageCreate.Message,
+                        messageCreate.Message.Content.Remove(0, command.Length).Split(" ")
+                    );
+                }
             };
 
         }
