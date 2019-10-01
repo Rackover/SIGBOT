@@ -8,6 +8,8 @@ namespace SIGBOT
 {
     class Bot
     {
+        public const char prefix = '>';
+
         DiscordClient client;
         Controller controller = new Controller();
 
@@ -40,7 +42,14 @@ namespace SIGBOT
 
             client.MessageCreated += async messageCreate =>
             {
-                var command = messageCreate.Message.Content.ToLower();
+                var content = messageCreate.Message.Content;
+                if (!content.StartsWith(prefix))
+                {
+                    return;
+                }
+
+                var parts = content.ToLower().Remove(0, 1).Split(" ");
+                var command = parts[0];
                 if (controller.ContainsKey(command))
                 {
                     await controller[command].Execute(
