@@ -55,7 +55,9 @@ namespace SIGBOT
                     await controller[command].Execute(
                         messageCreate.Author,
                         messageCreate.Message,
-                        messageCreate.Message.Content.Remove(0, command.Length).Split(" ")
+
+                        // +1 because the prefix is 1 character long
+                        content.Remove(0, command.Length+1).Split(" ")
                     );
                 }
             };
