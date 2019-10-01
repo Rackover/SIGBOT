@@ -8,6 +8,8 @@ namespace SIGBOT
     {
         public Controller(){
             Add("ping", new Commands.Ping());
+            Add("listenreacts", new Commands.ListenRoles());
+            Add("register", new Commands.RegisterRoleReact());
         }
     }
 }

@@ -9,6 +9,6 @@ namespace SIGBOT
 {
     public abstract class Command
     {
-        public abstract Task Execute(DiscordUser user, DiscordMessage message, string[] args); 
+        public abstract Task Execute(Bot bot, DiscordUser user, DiscordMessage message, string[] args); 
     }
 }
