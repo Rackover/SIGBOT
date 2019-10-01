@@ -6,7 +6,7 @@ namespace SIGBOT
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            new Bot(Environment.GetEnvironmentVariable("TOKEN"));
         }
     }
 }
