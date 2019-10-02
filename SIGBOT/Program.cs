@@ -6,7 +6,8 @@ namespace SIGBOT
     {
         static void Main(string[] args)
         {
-            new Bot(Environment.GetEnvironmentVariable("TOKEN"));
+            new SIGBOT.Components.War.Map().Draw();
+            //new Bot(Environment.GetEnvironmentVariable("TOKEN"));
         }
     }
 }
