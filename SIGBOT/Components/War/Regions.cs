@@ -13,5 +13,9 @@ namespace SIGBOT.Components.War
                 Add(value);
             }
         }
+
+        public Region this[string name] {
+            get { return Find(o => o.name == name); }
+        }
     }
 }
