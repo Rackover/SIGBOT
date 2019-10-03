@@ -17,10 +17,10 @@ namespace SIGBOT.Components.War
             this.color = color;
         }
 
-        public void Cede(Region region, Team originalOwner)
+        public void TakeOwnershipOf(Region region)
         {
+            region.owner.territory.RemoveAll(o => o.id == region.id);
             region.owner = this;
-            originalOwner.territory.RemoveAll(o => o.id == region.id);
             territory[region.id] = region;
         }
     }

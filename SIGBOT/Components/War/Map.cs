@@ -16,7 +16,16 @@ namespace SIGBOT.Components.War
         static public readonly Vector2 VERTICAL_DESK = new Vector2(3, 4);
         static public readonly Vector2 LONG_VERTICAL_DESK = new Vector2(3, 5);
 
-        public enum TEAM { PLIPPLOP, PLANETFOG, RIPPLE, BATTLECARS, OMBRES, TOUGHCOOKIE, HAULAWAY, ROBOTS, NEUTRAL }
+        public enum TEAM { 
+            PLIPPLOP, 
+            PLANETFOG, 
+            RIPPLE, 
+            BATTLECARS, 
+            OMBRES, 
+            TOUGHCOOKIE, 
+            HAULAWAY, 
+            ROBOTS, 
+            NEUTRAL }
         public Regions regions = new Regions();
         public Dictionary<TEAM, Team> teams = new Dictionary<TEAM, Team>();
     }

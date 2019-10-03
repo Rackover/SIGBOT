@@ -22,19 +22,21 @@ namespace SIGBOT.Components.War
 
             var bitmap = new Bitmap(W * SCALE, H * SCALE); // 55x32 is the resolution of the bitmap (pixels)
             var image = Graphics.FromImage(bitmap);
-            var brush = new SolidBrush(Color.White);
+            var brush = new SolidBrush(Color.LightGray);
             var pen = new Pen(Color.Black, STROKE);
             image.FillRectangle(brush, new Rectangle(0, 0, W*SCALE, H*SCALE));
 
 
             foreach(var team in teams){
 
+                if (team.territory.Count == 0) continue; // Team eliminated
+
                 // Regions
                 var points = new List<Vector2>();
                 foreach (var region in team.territory){
                     pen.Color = Color.Black;
                     pen.Width = 1;
-                    points.Add(region.position);
+                    points.Add(region.position + region.size/2f);
                     DrawRegion(image, region, brush, pen);
                 }
                 
@@ -48,21 +50,23 @@ namespace SIGBOT.Components.War
                 x /= points.Count;
                 y /= points.Count;
 
-                var fontRedux = 4F;
+                var fontRedux = 5F;
                 var minFontSize = 1.3f;
                 var format = new StringFormat();
                 format.Alignment = StringAlignment.Center;
                 format.LineAlignment = StringAlignment.Center;
+
                 var width = Math.Max(points.Count*2f, 7f);
                 var height = Math.Max(points.Count*2f, 7f);
-                
+
                 brush.Color = Color.Black;
-                image.DrawString(team.name, new Font("Droid Serif", Math.Max(minFontSize, points.Count/fontRedux)*SCALE), brush, new RectangleF(
+                image.DrawString(team.name, new Font("Impact", Math.Max(minFontSize, points.Count/fontRedux)*SCALE), brush, new RectangleF(
                     (x - width/2)*SCALE, 
                     (y - height/2)*SCALE,
                     width * SCALE,
                     height * SCALE
                 ), format);
+
             }            
 
                 /* 
@@ -82,6 +86,7 @@ namespace SIGBOT.Components.War
                 */
 
             brush.Dispose();
+            image.Dispose();
 
             return bitmap;
         }
@@ -125,8 +130,9 @@ namespace SIGBOT.Components.War
                 );
         }
 
-        public void WriteToDisk(Bitmap map){
-            map.Save("test.png", ImageFormat.Png);
+        public void WriteToDisk(Bitmap map, string name="test.png"){
+            map.Save(name, ImageFormat.Png);
+            map.Dispose();
         }
     }
 }
