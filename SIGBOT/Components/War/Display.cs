@@ -69,12 +69,10 @@ namespace SIGBOT.Components.War
 
             }            
 
-                /* 
+            /*
+                
             foreach (var region in regions){
                 if (region.position.X == 0) continue;
-                pen.Color = Color.Black;
-                pen.Width = 1;
-                DrawRegion(image, region, brush, pen);
                 
                 // For debugging only
                 foreach(var neighbor in region.neighbors){
@@ -83,7 +81,7 @@ namespace SIGBOT.Components.War
                     DrawLink(image, region, neighbor, pen);
                 }
             }
-                */
+              */  
 
             brush.Dispose();
             image.Dispose();
