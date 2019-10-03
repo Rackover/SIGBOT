@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SIGBOT.Components.War
 {
-    class Region
+    public class Region
     {
         public readonly int id;
         public readonly string name;
@@ -16,11 +16,15 @@ namespace SIGBOT.Components.War
         public Vector2 position;
         public Vector2 size = new Vector2(3, 4);
 
-        public Region(string name, Team owner, float w=3f, float h=4f)
+        public Region(string name, Team owner) : this(name, owner, Map.VERTICAL_DESK.X, Map.VERTICAL_DESK.Y)
+        {
+        }
+        public Region(string name, Team owner, float w, float h)
         {
             this.id = new Random().GetHashCode();
             this.name = name;
             this.owner = owner;
+            this.owner.territory[this.id] = this;
         }
 
         public void ConnectWith(Region region)
@@ -39,22 +43,27 @@ namespace SIGBOT.Components.War
             size = new Vector2(x, y);
         }
 
-        public void PutRightOf(Region region)
+        public void SetSize(Vector2 size)
+        {
+            this.size = new Vector2(size.X, size.Y);
+        }
+
+        public void PutEastOf(Region region)
         {
             SetPosition(region.position.X + region.size.X - 1, region.position.Y);
         }
 
-        public void PutLeftOf(Region region)
+        public void PutWestOf(Region region)
         {
             SetPosition(region.position.X - size.X + 1, region.position.Y);
         }
 
-        public void PutBelow(Region region)
+        public void PutSouthOf(Region region)
         {
             SetPosition(region.position.X, region.position.Y + region.size.Y - 1);
         }
 
-        public void PutAbove(Region region)
+        public void PutNorthOf(Region region)
         {
             SetPosition(region.position.X, region.position.Y - size.Y + 1);
         }

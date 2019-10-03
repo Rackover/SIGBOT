@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SIGBOT.Components.War
 {
-    class Regions : List<Region>
+    public class Regions : List<Region>
     {
         new public Region this[int i]{
             get { return Find(o => o.id == i); }

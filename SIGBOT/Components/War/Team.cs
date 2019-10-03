@@ -5,11 +5,11 @@ using System.Text;
 
 namespace SIGBOT.Components.War
 {
-    class Team
+    public class Team
     {
         public Color color;
         public string name;
-        public Regions territory;
+        public Regions territory = new Regions();
 
         public Team(string name, Color color)
         {
