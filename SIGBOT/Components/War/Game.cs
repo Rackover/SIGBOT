@@ -8,8 +8,9 @@ namespace SIGBOT.Components.War
 {
     public class Game
     {
+        public Journal events = new Journal();
         public Rule rule;
-        public static DateTime now;
+        public DateTime now;
 
         public Game(Rule rule)
         {
@@ -44,8 +45,8 @@ namespace SIGBOT.Components.War
                 if (map.teams.Count <= 1)
                 {
                     var winner = map.teams.First().Value;
-                    rule.events.Add(new Supremacy() { winner = winner, lastConquest = winner.territory.Last() });
-                    Console.WriteLine(rule.events);
+                    events.Add(new Supremacy() { winner = winner, lastConquest = winner.territory.Last() });
+                    Console.WriteLine(events);
                     break;
                 }
 

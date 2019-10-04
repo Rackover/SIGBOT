@@ -8,8 +8,8 @@ namespace SIGBOT.Components.War
     {
         public void Add(WarEvent evnt)
         {
-            if (!ContainsKey(Game.now)) Add(Game.now, new List<WarEvent>());
-            this[Game.now].Add(evnt);
+            if (!ContainsKey(Program.game.now)) Add(Program.game.now, new List<WarEvent>());
+            this[Program.game.now].Add(evnt);
         }
 
         public override string ToString()

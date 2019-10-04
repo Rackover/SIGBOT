@@ -36,16 +36,13 @@ namespace SIGBOT.Components.War.Rules
                         || // Streak fail
                         (streak > 1 && new Random().NextDouble() * streak * (20f / step) > team.territory.Count / 50f))
                     {
-                        events.Add(new Repel() { defendedTerritory = target, repelled = team });
+                        //events.Add(new Repel() { defendedTerritory = target, repelled = team });
                         break; 
                     }
 
                     // Invasion success
-                    events.Add(new Conquest() { conqueredTerritory = target, loser = target.owner, winner = team });
                     var oldOwner = target.owner;
                     team.TakeOwnershipOf(target);
-                    if (oldOwner.territory.Count <= 0)
-                        events.Add(new Elimination() { eliminated = oldOwner, lastOwnedTerritory = target, killer = team });
 
                     streak++;
                 }
