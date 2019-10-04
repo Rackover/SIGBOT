@@ -61,10 +61,10 @@ namespace SIGBOT.Components.War
 
                 brush.Color = Color.Black;
                 image.DrawString(team.name, new Font("Impact", Math.Max(minFontSize, points.Count/fontRedux)*SCALE), brush, new RectangleF(
-                    (x - width/2)*SCALE, 
-                    (y - height/2)*SCALE,
-                    width * SCALE,
-                    height * SCALE
+                    Math.Max(0, x - width/2) * SCALE,
+                    Math.Max(0, y - height/2) * SCALE,
+                    Math.Min(W, width) * SCALE,
+                    Math.Min(H, height) * SCALE
                 ), format);
 
             }            
