@@ -20,6 +20,7 @@ namespace SIGBOT.Components.War
         public void TakeOwnershipOf(Region region)
         {
             region.owner.territory.RemoveAll(o => o.id == region.id);
+            region.history.Add(region.owner);
             region.owner = this;
             territory[region.id] = region;
         }

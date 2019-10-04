@@ -11,19 +11,20 @@ namespace SIGBOT.Components.War
         public readonly string name;
         public Regions neighbors = new Regions();
         public Team owner;
+        public List<Team> history = new List<Team>();
 
         // Pivot point of regions is top left (0,0)
         public Vector2 position;
         public Vector2 size = new Vector2(3, 4);
 
-        public Region(string name, Team owner) : this(name, owner, Map.VERTICAL_DESK.X, Map.VERTICAL_DESK.Y)
-        {
-        }
+        public Region(string name, Team owner) : this(name, owner, Map.VERTICAL_DESK.X, Map.VERTICAL_DESK.Y){}
+
         public Region(string name, Team owner, float w, float h)
         {
             this.id = new Random().GetHashCode();
             this.name = name;
             this.owner = owner;
+            this.history.Add(owner);
             this.owner.territory[this.id] = this;
         }
 
