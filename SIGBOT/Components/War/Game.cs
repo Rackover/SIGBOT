@@ -17,7 +17,7 @@ namespace SIGBOT.Components.War
         public Map map;
         public Display display;
 
-        string directory = "out/warBot";
+        public readonly string directory = "out/warBot";
 
         public Game(Rule rule)
         {
@@ -35,14 +35,13 @@ namespace SIGBOT.Components.War
             {
                 Directory.CreateDirectory(directory);
             }
-            Console.WriteLine("Writing to disk");
             var data = JsonConvert.SerializeObject(map, Formatting.Indented);
             File.WriteAllText(Path.Combine(directory, "map.json"), data);
         }
 
         public void ReadFromDisk()
         {
-            Console.WriteLine("Reading from disk");
+            if (!File.Exists(Path.Combine(directory, "map.json"))) return;
             var data = File.ReadAllText(Path.Combine(directory, "map.json"));
             var map = JsonConvert.DeserializeObject<Map>(data);
             this.map = map;
@@ -67,7 +66,7 @@ namespace SIGBOT.Components.War
                     map.regions,
                     map.teams.ToList()
                 ),
-                "step" + i + ".png"
+                Path.Combine(directory, i + ".png")
             );
             Console.WriteLine("Playing step " + i);
 

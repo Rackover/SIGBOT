@@ -15,6 +15,9 @@ namespace SIGBOT
         public readonly DiscordClient client;
         public readonly Controller controller = new Controller();
         public readonly RoleOnReact roleOnReact = new RoleOnReact();
+        public readonly ChronoEvents chronoEvents = new ChronoEvents();
+
+        public readonly Task dateCheckInterval;
 
         public Bot(string token)
         {
@@ -25,6 +28,14 @@ namespace SIGBOT
             });
 
             RegisterEvents(client);
+
+            dateCheckInterval = Task.Run(async () => {
+                for (; ; )
+                {
+                    await Task.Delay(1000);
+                    chronoEvents.CheckDate();
+                }
+            });
 
             Run().ConfigureAwait(false).GetAwaiter().GetResult();
         }
