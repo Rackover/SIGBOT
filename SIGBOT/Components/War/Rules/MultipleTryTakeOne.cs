@@ -7,23 +7,22 @@ namespace SIGBOT.Components.War.Rules
 {
     public class MultipleTryTakeOne : Rule
     {
-        public override void Advance(Dictionary<TEAM, Team> teams, List<Region> regions, int step)
+        public override void Advance(Teams teams, List<Region> regions, int step)
         {
-            foreach(var teamID in teams.Keys)
+            foreach (var team in teams)
             {
-                var team = teams[teamID];
                 var targets = new List<Region>();
-                foreach (var region in team.territory)
+                foreach (var region in team.GetTerritory())
                 {
                     foreach (var neighbor in region.neighbors)
                     {
-                        if (neighbor.owner == team) continue;
-                        targets.Add(neighbor);
+                        if (team.territory.Contains(neighbor)) continue;
+                        targets.Add(Program.game.map.regions[neighbor]);
                     }
                 }
 
                 var i = new Random().Next(targets.Count);
-                Console.WriteLine(i);
+
                 var target = targets[i];
 
                 if (new Random().Next(100) > 90) continue; // Invasion failed

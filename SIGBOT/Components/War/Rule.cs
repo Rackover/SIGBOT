@@ -7,6 +7,6 @@ namespace SIGBOT.Components.War
 {
     public abstract class Rule
     {
-        public abstract void Advance(Dictionary<TEAM, Team> teams, List<Region> regions, int step);
+        public abstract void Advance(Teams teams, List<Region> regions, int step);
     }
 }

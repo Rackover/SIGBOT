@@ -3,31 +3,42 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
+using static SIGBOT.Components.War.Map;
 
 namespace SIGBOT.Components.War
 {
+    [Serializable]
     public class Team
     {
         public Color color;
         public string name;
-        public Regions territory = new Regions();
+        public List<int> territory = new List<int>();
+        public TEAM id;
 
-        public Team(string name, Color color)
+        public Team(string name, TEAM id, Color color)
         {
             this.name = name;
             this.color = color;
+            this.id = id;
         }
 
         public void TakeOwnershipOf(Region region)
         {
-            region.owner.territory.RemoveAll(o => o.id == region.id);
-            Program.game.events.Add(new Conquest() { conqueredTerritory = region, loser = region.owner, winner = this });
-            if (region.owner.territory.Count <= 0)
-                Program.game.events.Add(new Elimination() { eliminated = region.owner, lastOwnedTerritory = region, killer = this });
+            region.GetOwner().territory.RemoveAll(o => o == region.id); 
+            Program.game.events.Add(new Conquest() { conqueredTerritory = region.id, loser = region.owner, winner = id });
+            if (region.GetOwner().territory.Count <= 0)
+                Program.game.events.Add(new Elimination() { eliminated = region.owner, lastOwnedTerritory = region.id, killer = id });
 
             region.history.Add(region.owner);
-            region.owner = this;
-            territory[region.id] = region;
+            region.owner = id;
+            territory.Add(region.id);
+        }
+
+        public List<Region> GetTerritory()
+        {
+            return Program.game.map.regions.FindAll(
+                o => o.owner == id
+            );
         }
     }
 }

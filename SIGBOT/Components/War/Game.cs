@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using SIGBOT.Components.War.Events;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace SIGBOT.Components.War
 {
@@ -12,46 +14,75 @@ namespace SIGBOT.Components.War
         public Rule rule;
         public DateTime now;
 
+        public Map map;
+        public Display display;
+
+        string directory = "out/warBot";
+
         public Game(Rule rule)
         {
+            Program.game = this;
             this.rule = rule;
+            
+            display = new Display(scale: 10);
+            map = new Classroom.J002();
+            WriteToDisk();
         }
 
-        public void Run()
+        public void WriteToDisk()
         {
-            var display = new Display(scale: 10);
-            var map = new Classroom.J002();
-
-            for (var i = 1; i < 500; i++)
+            if (!Directory.Exists(directory))
             {
-                foreach (var team in map.teams.Keys.ToArray())
-                {
-                    if (map.teams[team].territory.Count <= 0)
-                    {
-                        map.teams.Remove(team);
-                    }
-                }
-                now = DateTime.Now;
-                display.WriteToDisk(
-                    display.DrawMap(
-                        map.regions,
-                        map.teams.Values.ToList()
-                    ),
-                    "step" + i + ".png"
-                );
-                Console.WriteLine("Playing step " + i);
-
-
-                if (map.teams.Count <= 1)
-                {
-                    var winner = map.teams.First().Value;
-                    events.Add(new Supremacy() { winner = winner, lastConquest = winner.territory.Last() });
-                    Console.WriteLine(events);
-                    break;
-                }
-
-                rule.Advance(map.teams, map.regions, i);
+                Directory.CreateDirectory(directory);
             }
+            Console.WriteLine("Writing to disk");
+            var data = JsonConvert.SerializeObject(map, Formatting.Indented);
+            File.WriteAllText(Path.Combine(directory, "map.json"), data);
+        }
+
+        public void ReadFromDisk()
+        {
+            Console.WriteLine("Reading from disk");
+            var data = File.ReadAllText(Path.Combine(directory, "map.json"));
+            var map = JsonConvert.DeserializeObject<Map>(data);
+            this.map = map;
+        }
+
+        public bool Advance()
+        {
+            var i = map.step;
+            map.teams.Rearrange();
+            map.regions.Rearrange();
+
+            foreach (var team in map.teams.ToArray())
+            {
+                if (team.territory.Count <= 0)
+                {
+                    map.teams.Remove(team);
+                }
+            }
+            now = DateTime.Now;
+            display.WriteToDisk(
+                display.DrawMap(
+                    map.regions,
+                    map.teams.ToList()
+                ),
+                "step" + i + ".png"
+            );
+            Console.WriteLine("Playing step " + i);
+
+
+            if (map.teams.Count <= 1)
+            {
+                var winner = map.teams.First();
+                events.Add(new Supremacy() { winner = winner.id, lastConquest = winner.territory.Last() });
+                return true;
+            }
+
+            rule.Advance(map.teams, map.regions, i);
+            map.step++;
+
+            return false;
         }
     }
 }

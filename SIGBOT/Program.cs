@@ -8,8 +8,13 @@ namespace SIGBOT
         public static Game game;
         static void Main(string[] args)
         {
-            game = new Game(new Components.War.Rules.MultipleTryRandomStreak());
-            game.Run();
+            new Game(new Components.War.Rules.OneTakeRandomStreak());
+            for (var i = 1; i < 500; i++)
+            {
+                game.ReadFromDisk();
+                if (game.Advance()) break;
+                game.WriteToDisk();
+            }
             //new Bot(Environment.GetEnvironmentVariable("TOKEN"));
         }
     }

@@ -1,17 +1,20 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Numerics;
 using System.Text;
+using static SIGBOT.Components.War.Map;
 
 namespace SIGBOT.Components.War
 {
+    [Serializable]
     public class Region
     {
-        public readonly int id;
-        public readonly string name;
-        public Regions neighbors = new Regions();
-        public Team owner;
-        public List<Team> history = new List<Team>();
+        public int id;
+        public string name;
+        public List<int> neighbors = new List<int>();
+        public TEAM owner;
+        public List<TEAM> history = new List<TEAM>();
 
         // Pivot point of regions is top left (0,0)
         public Vector2 position;
@@ -23,15 +26,22 @@ namespace SIGBOT.Components.War
         {
             this.id = new Random().GetHashCode();
             this.name = name;
-            this.owner = owner;
-            this.history.Add(owner);
-            this.owner.territory[this.id] = this;
+            this.owner = owner.id;
+            this.history.Add(owner.id);
+            owner.territory.Add(this.id);
+        }
+
+        [JsonConstructor] public Region() { }
+
+        public Team GetOwner()
+        {
+            return Program.game.map.teams[owner];
         }
 
         public void ConnectWith(Region region)
         {
-            neighbors[region.id] = region;
-            region.neighbors[id] = this;
+            neighbors.Add(region.id);
+            region.neighbors.Add(id);
         }
 
         public void SetPosition(float x, float y)

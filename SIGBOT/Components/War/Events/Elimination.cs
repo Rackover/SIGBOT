@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using static SIGBOT.Components.War.Map;
 
 namespace SIGBOT.Components.War.Events
 {
     public class Elimination : WarEvent
     {
-        public Team eliminated;
-        public Team killer;
-        public Region lastOwnedTerritory;
+        public TEAM eliminated;
+        public TEAM killer;
+        public int lastOwnedTerritory;
         public override string ToString()
         {
-            return "**Le projet {0} est annulé car plus personne ne travaille dessus.**".Format(eliminated.name);
+            var elim = Program.game.map.teams[eliminated];
+            return "**Le projet {0} est annulé car plus personne ne travaille dessus.**".Format(elim.name);
         }
     }
 }

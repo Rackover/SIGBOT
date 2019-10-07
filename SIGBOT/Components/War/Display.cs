@@ -31,9 +31,18 @@ namespace SIGBOT.Components.War
 
                 if (team.territory.Count == 0) continue; // Team eliminated
 
+                var a = team.GetTerritory();
+                if (team.territory.Count != a.Count)
+                {
+                    Console.WriteLine("Territory count mismatch for " + team.name + ", expected "+team.territory.Count + ", got "+a.Count);
+                    Console.WriteLine(team.territory[0]);
+                    Console.WriteLine(regions[team.territory[0]]);
+                    throw new Exception();
+                }
+
                 // Regions
                 var points = new List<Vector2>();
-                foreach (var region in team.territory){
+                foreach (var region in team.GetTerritory()){
                     pen.Color = Color.Black;
                     pen.Width = 1;
                     points.Add(region.position + region.size/2f);
@@ -99,7 +108,7 @@ namespace SIGBOT.Components.War
 
         public void DrawRegion(Graphics image, Region region, SolidBrush brush, Pen pen){
 
-                brush.Color = region.owner.color;
+                brush.Color = region.GetOwner().color;
                 image.FillRectangle(
                     brush,
                     new Rectangle(
@@ -113,9 +122,9 @@ namespace SIGBOT.Components.War
                 // Stroke
                 var darknessFactor = 2f;
                 pen.Color = Color.FromArgb(
-                    (int)Math.Floor(region.owner.color.R/darknessFactor),
-                    (int)Math.Floor(region.owner.color.G/darknessFactor),
-                    (int)Math.Floor(region.owner.color.B/darknessFactor)
+                    (int)Math.Floor(region.GetOwner().color.R/darknessFactor),
+                    (int)Math.Floor(region.GetOwner().color.G/darknessFactor),
+                    (int)Math.Floor(region.GetOwner().color.B/darknessFactor)
                 );
                 image.DrawRectangle(
                     pen,

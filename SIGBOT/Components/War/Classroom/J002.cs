@@ -7,15 +7,15 @@ namespace SIGBOT.Components.War.Classroom
     {
         public J002(){
                     // Initializing every team
-            teams.Add(TEAM.PLANETFOG, new Team("A planet in the fog", Color.WhiteSmoke));
-            teams.Add(TEAM.PLIPPLOP, new Team("Plip plop", Color.Salmon));
-            teams.Add(TEAM.RIPPLE, new Team("Ripple", Color.LimeGreen));
-            teams.Add(TEAM.BATTLECARS, new Team("Battle cars", Color.Gold));
-            teams.Add(TEAM.OMBRES, new Team("Ombres", Color.Purple));
-            teams.Add(TEAM.TOUGHCOOKIE, new Team("Tough Kookie", Color.Orange));
-            teams.Add(TEAM.HAULAWAY, new Team("Haul away", Color.Teal));
-            teams.Add(TEAM.ROBOTS, new Team("Robots them up", Color.DodgerBlue));
-            teams.Add(TEAM.NEUTRAL, new Team("Equipe pédagogique", Color.Gray));
+            teams.Add(new Team("A planet in the fog", TEAM.PLANETFOG, Color.WhiteSmoke));
+            teams.Add(new Team("Plip plop", TEAM.PLIPPLOP, Color.Salmon));
+            teams.Add(new Team("Ripple", TEAM.RIPPLE, Color.LimeGreen));
+            teams.Add(new Team("Battle cars", TEAM.BATTLECARS, Color.Gold));
+            teams.Add(new Team("Ombres", TEAM.OMBRES, Color.Purple));
+            teams.Add(new Team("Tough Kookie", TEAM.TOUGHCOOKIE, Color.Orange));
+            teams.Add(new Team("Haul away", TEAM.HAULAWAY, Color.Teal));
+            teams.Add(new Team("Robots them up", TEAM.ROBOTS, Color.DodgerBlue));
+            teams.Add(new Team("Equipe pédagogique", TEAM.NEUTRAL, Color.Gray));
 
             CreateRegions();
             ResizeRegions();
@@ -157,9 +157,9 @@ namespace SIGBOT.Components.War.Classroom
         void ResizeRegions(){
             // Size corrections
             // Horizontal teams
-            regions.FindAll(o => o.owner == teams[TEAM.OMBRES]).ForEach(o => { o.SetSize(HORIZONTAL_DESK); });
-            regions.FindAll(o => o.owner == teams[TEAM.PLIPPLOP]).ForEach(o => { o.SetSize(HORIZONTAL_DESK); });
-            regions.FindAll(o => o.owner == teams[TEAM.PLANETFOG]).ForEach(o => { o.SetSize(HORIZONTAL_DESK); });
+            regions.FindAll(o => o.owner == TEAM.OMBRES).ForEach(o => { o.SetSize(HORIZONTAL_DESK); });
+            regions.FindAll(o => o.owner == TEAM.PLIPPLOP).ForEach(o => { o.SetSize(HORIZONTAL_DESK); });
+            regions.FindAll(o => o.owner == TEAM.PLANETFOG).ForEach(o => { o.SetSize(HORIZONTAL_DESK); });
             // Special desks
             regions["Valentin"].SetSize(LONG_VERTICAL_DESK);
             regions["Charlotte"].SetSize(LONG_VERTICAL_DESK);

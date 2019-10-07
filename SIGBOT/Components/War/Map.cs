@@ -9,6 +9,7 @@ using System.Numerics;
 
 namespace SIGBOT.Components.War
 {
+    [Serializable]
     public class Map
     {
         static public readonly Vector2 HORIZONTAL_DESK = new Vector2(4, 3);
@@ -25,9 +26,11 @@ namespace SIGBOT.Components.War
             TOUGHCOOKIE, 
             HAULAWAY, 
             ROBOTS, 
-            NEUTRAL }
+            NEUTRAL
+        }
+        public int step = 1;
+        public Teams teams = new Teams();
         public Regions regions = new Regions();
-        public Dictionary<TEAM, Team> teams = new Dictionary<TEAM, Team>();
     }
 
 }
