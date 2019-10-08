@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace SIGBOT.Components
 {
@@ -10,7 +11,7 @@ namespace SIGBOT.Components
         public Dictionary<int, Action> events = new Dictionary<int, Action>();
 
         int lastDay = 0;
-        Action lastEvent = null;
+        Action lastPlayedEvent = null;
 
         public void RegisterAtTime(string time, Action deleg)
         {
@@ -27,35 +28,53 @@ namespace SIGBOT.Components
 
         public void CheckDate()
         {
+            Console.WriteLine("===================== {0} =====================".Format(Second().ToString()));
             if (DateTime.Now.Day != lastDay)
-                ResetCurrentEvent();
+                ResetLastPlayedEvent();
 
-            var curr = CurrentEvent();
-            if (curr != lastEvent && curr != null)
+            var curr = LastAvailableEvent();
+            Console.WriteLine("Current event: [{0}]".Format(curr != null ? curr.GetHashCode().ToString() : "NULL"));
+            Console.WriteLine("Last event: ");
+            Console.Write(lastPlayedEvent);
+            if (curr != lastPlayedEvent && curr != null)
             {
-                lastEvent = curr;
+                Console.WriteLine("RUNNING CURR and setting it as last event");
+                lastPlayedEvent = curr;
                 Task.Run(curr);
             }
         }
 
-        Action CurrentEvent()
+        Action LastAvailableEvent()
         {
-            var lastTime = 0;
-            foreach(var time in events.Keys)
+            if (events.Count == 0)
+                return null;
+
+            var lastTime = -1;
+            foreach (var time in events.Keys)
             {
-                if (time > Second())
-                {
-                    return events[lastTime];
-                }
-                lastTime = time;
+                Console.WriteLine("Checking event at time {0} for second {1}...".Format(time.ToString(), Second().ToString()));
+
+                if (time < Second())
+                    lastTime = time;
+
+                else
+                    break;
             }
-            return null;
+
+            if (lastTime == -1)
+                return null;
+
+            Console.WriteLine("Returning event for time {0}".Format(lastTime.ToString()));
+
+            return events[lastTime];
+
         }
 
-        void ResetCurrentEvent()
+        void ResetLastPlayedEvent()
         {
             lastDay = DateTime.Now.Day;
-            lastEvent = null;
+            lastPlayedEvent = null;
+            Console.WriteLine("Reset last event to NULL");
         }
 
         int Second()
