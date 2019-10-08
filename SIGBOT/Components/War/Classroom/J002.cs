@@ -85,11 +85,11 @@ namespace SIGBOT.Components.War.Classroom
             regions["Marc"].SetPosition(10, 3);
             regions["Inès"].PutEastOf(regions["Marc"]);
             regions["Alessandro"].PutSouthOf(regions["Marc"]);
-            regions["Marie"].PutSouthOf(regions["Alessandro"]);
-            regions["Simon"].PutSouthOf(regions["Marie"]);
             regions["Etienne"].PutSouthOf(regions["Inès"]);
             regions["Pierre"].PutSouthOf(regions["Etienne"]);
-            regions["Morgane"].PutSouthOf(regions["Pierre"]);
+            regions["Simon"].PutSouthOf(regions["Pierre"]);
+            regions["Morgane"].PutWestOf(regions["Pierre"]);
+            regions["Marie"].PutSouthOf(regions["Morgane"]);
 
             // Ombres
             regions["Eve"].SetPosition(2, 21);

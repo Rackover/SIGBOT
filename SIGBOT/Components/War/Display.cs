@@ -75,22 +75,13 @@ namespace SIGBOT.Components.War
                     Math.Min(W, width) * SCALE,
                     Math.Min(H, height) * SCALE
                 ), format);
-
-            }            
-
-            /*
-                
-            foreach (var region in regions){
-                if (region.position.X == 0) continue;
-                
-                // For debugging only
-                foreach(var neighbor in region.neighbors){
-                    pen.Color = Color.Red;
-                    pen.Width = 1;
-                    DrawLink(image, region, neighbor, pen);
-                }
             }
-              */  
+            
+            /*
+            foreach (var region in regions){
+                image.DrawString(region.name, new Font(FontFamily.GenericSansSerif, SCALE), brush, (region.position.X + region.size.X) * SCALE, (region.position.Y + region.size.Y) * SCALE);
+            }
+            */
 
             brush.Dispose();
             image.Dispose();

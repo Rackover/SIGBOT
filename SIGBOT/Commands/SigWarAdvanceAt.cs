@@ -31,7 +31,7 @@ namespace SIGBOT.Commands
 
                 var b = new StringBuilder();
                 var pair = Program.game.events.Last();
-                var bar = "===================================";
+                var bar = "--------------------------------------";
 
                 b.AppendLine(bar);
                 b.AppendLine("**{0}**".Format(string.Format("{0:F}", pair.Key)));
