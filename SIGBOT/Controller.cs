@@ -14,6 +14,9 @@ namespace SIGBOT
             Add("sigwaradvanceat", new Commands.SigWarAdvanceAt());
             Add("clearchrono", new Commands.ChronoClear());
             Add("clock", new Commands.Clock());
+            Add("sigwarstatus", new Commands.SigWarStatus());
+            Add("sigwarremovetick", new Commands.SigWarRemoveTick());
+            Add("sigwarhere", new Commands.SigWarHere());
         }
     }
 }

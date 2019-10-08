@@ -10,23 +10,12 @@ using SIGBOT.Components.War.Rules;
 
 namespace SIGBOT.Commands
 {
-    class SigWarStart : Command
+    class SigWarHere : Command
     {
         public override async Task Execute(Bot bot, DiscordUser user, DiscordMessage message, string[] args)
         {
-            Console.WriteLine("Starting SIGWAR...");
-
-            // Rule used
-            var rule = new OneTakeRandomStreak();
-
-            new Game(rule);
-
             Program.game.channel = message.Channel;
-
             await new SigWarStatus().Execute(bot, user, message, args);
-
-            await message.RespondAsync("Tout va bien dans la salle.");
-            Console.WriteLine("SIGWAR started. Register ticks to get it going with >SigWarAdvanceAt HH:MM:SS");
         }
     }
 }

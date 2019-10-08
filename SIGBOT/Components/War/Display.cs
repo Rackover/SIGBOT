@@ -139,9 +139,7 @@ namespace SIGBOT.Components.War
 
         public void WriteToDisk(Bitmap map, string name="test.png")
         {
-            Console.WriteLine("Saving file " + name);
             map.Save(name, ImageFormat.Png);
-            Console.WriteLine("Saved file " + name);
             map.Dispose();
         }
     }

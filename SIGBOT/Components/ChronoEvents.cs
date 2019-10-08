@@ -17,8 +17,21 @@ namespace SIGBOT.Components
         {
             var dTime = DateTime.Parse(time);
             var seconds = dTime.Second + dTime.Minute * 60 + dTime.Hour * 3600;
-            Console.WriteLine("Registered events at " + seconds + " seconds");
+          //  Console.WriteLine("Registered events at " + seconds + " seconds");
             events[seconds] = deleg;
+        }
+
+        public bool ClearAtTime(string time)
+        {
+            var dTime = DateTime.Parse(time);
+            var seconds = dTime.Second + dTime.Minute * 60 + dTime.Hour * 3600;
+            var here = events.ContainsKey(seconds);
+            if (here)
+            {
+                events.Remove(seconds);
+                return true;
+            }
+            return false;
         }
 
         public void Clear()
@@ -28,17 +41,17 @@ namespace SIGBOT.Components
 
         public void CheckDate()
         {
-            Console.WriteLine("===================== {0} =====================".Format(Second().ToString()));
+           // Console.WriteLine("===================== {0} =====================".Format(Second().ToString()));
             if (DateTime.Now.Day != lastDay)
                 ResetLastPlayedEvent();
 
             var curr = LastAvailableEvent();
-            Console.WriteLine("Current event: [{0}]".Format(curr != null ? curr.GetHashCode().ToString() : "NULL"));
-            Console.WriteLine("Last event: ");
-            Console.Write(lastPlayedEvent);
+           // Console.WriteLine("Current event: [{0}]".Format(curr != null ? curr.GetHashCode().ToString() : "NULL"));
+           // Console.WriteLine("Last event: ");
+           // Console.Write(lastPlayedEvent);
             if (curr != lastPlayedEvent && curr != null)
             {
-                Console.WriteLine("RUNNING CURR and setting it as last event");
+                //Console.WriteLine("RUNNING CURR and setting it as last event");
                 lastPlayedEvent = curr;
                 Task.Run(curr);
             }
@@ -52,7 +65,7 @@ namespace SIGBOT.Components
             var lastTime = -1;
             foreach (var time in events.Keys)
             {
-                Console.WriteLine("Checking event at time {0} for second {1}...".Format(time.ToString(), Second().ToString()));
+               // Console.WriteLine("Checking event at time {0} for second {1}...".Format(time.ToString(), Second().ToString()));
 
                 if (time < Second())
                     lastTime = time;
@@ -64,7 +77,7 @@ namespace SIGBOT.Components
             if (lastTime == -1)
                 return null;
 
-            Console.WriteLine("Returning event for time {0}".Format(lastTime.ToString()));
+            //Console.WriteLine("Returning event for time {0}".Format(lastTime.ToString()));
 
             return events[lastTime];
 
@@ -74,7 +87,7 @@ namespace SIGBOT.Components
         {
             lastDay = DateTime.Now.Day;
             lastPlayedEvent = null;
-            Console.WriteLine("Reset last event to NULL");
+            //Console.WriteLine("Reset last event to NULL");
         }
 
         int Second()

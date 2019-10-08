@@ -5,6 +5,7 @@ using System.Linq;
 using SIGBOT.Components.War.Events;
 using Newtonsoft.Json;
 using System.IO;
+using DSharpPlus.Entities;
 
 namespace SIGBOT.Components.War
 {
@@ -16,6 +17,7 @@ namespace SIGBOT.Components.War
 
         public Map map;
         public Display display;
+        public DiscordChannel channel;
 
         public readonly string directory = "out/warBot";
 
@@ -61,6 +63,22 @@ namespace SIGBOT.Components.War
                 }
             }
             now = DateTime.Now;
+
+            if (map.teams.Count <= 1)
+            {
+                display.WriteToDisk(
+                    display.DrawMap(
+                        map.regions,
+                        map.teams.ToList()
+                    ),
+                    Path.Combine(directory, i + ".png")
+                );
+                var winner = map.teams.First();
+                events.Add(new Supremacy() { winner = winner.id, lastConquest = winner.territory.Last() });
+                return true;
+            }
+
+            rule.Advance(map.teams, map.regions, i);
             display.WriteToDisk(
                 display.DrawMap(
                     map.regions,
@@ -68,17 +86,6 @@ namespace SIGBOT.Components.War
                 ),
                 Path.Combine(directory, i + ".png")
             );
-            Console.WriteLine("Playing step " + i);
-
-
-            if (map.teams.Count <= 1)
-            {
-                var winner = map.teams.First();
-                events.Add(new Supremacy() { winner = winner.id, lastConquest = winner.territory.Last() });
-                return true;
-            }
-
-            rule.Advance(map.teams, map.regions, i);
             map.step++;
 
             return false;

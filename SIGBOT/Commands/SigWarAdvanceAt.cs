@@ -17,43 +17,35 @@ namespace SIGBOT.Commands
             var finished = false;
             var channel = message.Channel;
 
-            if (bot.chronoEvents.events.Count <= 0)
-            {
-                Program.game.ReadFromDisk();
-                var disp = Program.game.display;
-                disp.WriteToDisk(
-                    disp.DrawMap(
-                        Program.game.map.regions,
-                        Program.game.map.teams.ToList()
-                    ),
-                    Path.Combine(Program.game.directory, Program.game.map.step + ".png")
-                );
-                await channel.SendFileAsync(
-                    Path.Combine(Program.game.directory, (Program.game.map.step) + ".png"),
-                    "Tout est calme dans la salle."
-                );
-            }
-
             bot.chronoEvents.RegisterAtTime(timeString, async delegate
             {
                 if (finished) return;
+
+                var filename = (Program.game.map.step) + ".png";
+
                 Program.game.ReadFromDisk();
                 finished = Program.game.Advance();
                 Program.game.WriteToDisk();
 
                 // Message formatting
+
                 var b = new StringBuilder();
                 var pair = Program.game.events.Last();
+                var bar = "===================================";
+
+                b.AppendLine(bar);
                 b.AppendLine("**{0}**".Format(string.Format("{0:F}", pair.Key)));
+                b.AppendLine(bar);
+
                 foreach (var evnt in pair.Value)
                 {
                     b.AppendLine(evnt.ToString());
                 }
+                b.AppendLine(bar);
+                
 
-
-                Console.WriteLine(">>Sending message with file<<");
-                await channel.SendFileAsync(
-                    Path.Combine(Program.game.directory, (Program.game.map.step) + ".png"),
+                await Program.game.channel.SendFileAsync(
+                    Path.Combine(Program.game.directory, filename),
                     b.ToString()
                 );
             });
