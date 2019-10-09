@@ -9,20 +9,20 @@ namespace SIGBOT.Components.War
     {
         public void Add(WarEvent evnt)
         {
-            if (!ContainsKey(Program.game.now)) Add(Program.game.now, new List<WarEvent>());
+            if (!ContainsKey(ChronoEvents.now)) Add(ChronoEvents.now, new List<WarEvent>());
 
             // Compression
             if (evnt is Conquest) {
-                var recurrences = this[Program.game.now].FindAll(o => o is Conquest).FindAll(o => ((Conquest)o).conqueredTerritory == ((Conquest)evnt).conqueredTerritory);
+                var recurrences = this[ChronoEvents.now].FindAll(o => o is Conquest).FindAll(o => ((Conquest)o).conqueredTerritory == ((Conquest)evnt).conqueredTerritory);
                 if (recurrences.Count > 0)
                 {
                     ((Conquest)recurrences[0]).winner = ((Conquest)evnt).winner;
-                    this[Program.game.now].RemoveAll(o => o is Conquest && ((Conquest)o).winner == ((Conquest)o).loser);
+                    this[ChronoEvents.now].RemoveAll(o => o is Conquest && ((Conquest)o).winner == ((Conquest)o).loser);
                     return;
                 }
             }
 
-            this[Program.game.now].Add(evnt);
+            this[ChronoEvents.now].Add(evnt);
         }
 
         public override string ToString()

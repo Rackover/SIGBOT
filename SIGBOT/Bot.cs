@@ -79,35 +79,37 @@ namespace SIGBOT
 
             client.MessageCreated += async messageCreate =>
             {
-                var content = messageCreate.Message.Content;
-                if (!content.StartsWith(prefix))
+                foreach (var content in messageCreate.Message.Content.Split("\n"))
                 {
-                    return;
-                }
-
-                var parts = content.ToLower().Trim().Remove(0, 1).Split(" ");
-                var command = parts[0];
-
-                // +1 because the prefix is 1 character long
-                var args = content.Remove(0, command.Length + 1).Trim().Split(" ");
-                if (controller.ContainsKey(command))
-                {
-                    try
+                    if (!content.StartsWith(prefix))
                     {
-                        await controller[command].Execute(
-                            bot: this,
-                            user: messageCreate.Author,
-                            message: messageCreate.Message,
-                            args: args
-                        );
+                        return;
                     }
-                    catch (IndexOutOfRangeException e)
+
+                    var parts = content.ToLower().Trim().Remove(0, 1).Split(" ");
+                    var command = parts[0];
+
+                    // +1 because the prefix is 1 character long
+                    var args = content.Remove(0, command.Length + 1).Trim().Split(" ");
+                    if (controller.ContainsKey(command))
                     {
-                        Console.WriteLine("Wrong number of arguments for command: " + command + "(" + (args.Length) + ")\n"+e);
-                    }
-                    catch (ArgumentException e)
-                    {
-                        Console.WriteLine("Internal error for command: " + command + "(" + (args.Length) + ")\n" + e);
+                        try
+                        {
+                            await controller[command].Execute(
+                                bot: this,
+                                user: messageCreate.Author,
+                                message: messageCreate.Message,
+                                args: args
+                            );
+                        }
+                        catch (IndexOutOfRangeException e)
+                        {
+                            Console.WriteLine("Wrong number of arguments for command: " + command + "(" + (args.Length) + ")\n" + e);
+                        }
+                        catch (ArgumentException e)
+                        {
+                            Console.WriteLine("Internal error for command: " + command + "(" + (args.Length) + ")\n" + e);
+                        }
                     }
                 }
             };

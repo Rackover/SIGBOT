@@ -13,7 +13,6 @@ namespace SIGBOT.Components.War
     {
         public Journal events = new Journal();
         public Rule rule;
-        public DateTime now;
 
         public Map map;
         public Display display;
@@ -62,7 +61,6 @@ namespace SIGBOT.Components.War
                     map.teams.Remove(team);
                 }
             }
-            now = DateTime.Now;
 
             if (map.teams.Count <= 1)
             {
