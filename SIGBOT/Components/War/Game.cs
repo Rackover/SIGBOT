@@ -20,14 +20,20 @@ namespace SIGBOT.Components.War
 
         public readonly string directory = "out/warBot";
 
-        public Game(Rule rule)
+        public Game(Rule rule, bool load=false)
         {
             Program.game = this;
             this.rule = rule;
             
             display = new Display(scale: 10);
-            map = new Classroom.J002();
-            WriteToDisk();
+
+            if (load) {
+                ReadFromDisk();
+            }
+            else {
+                map = new Classroom.J002();
+                WriteToDisk();
+            }
         }
 
         public void WriteToDisk()

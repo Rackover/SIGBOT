@@ -23,8 +23,23 @@ namespace SIGBOT.Commands
                 ),
                 Path.Combine(Program.game.directory, "status.png")
             );
+
+            var b = new StringBuilder();
+            var pair = Program.game.events.Last();
+            var bar = "--------------------------------------";
+
+            b.AppendLine(bar);
+            b.AppendLine("**{0}**".Format(string.Format("{0:F}", pair.Key)));
+            b.AppendLine(bar);
+
+            foreach (var evnt in pair.Value) {
+                b.AppendLine(evnt.ToString());
+            }
+            b.AppendLine(bar);
+
             await message.Channel.SendFileAsync(
-                Path.Combine(Program.game.directory, "status.png")
+                Path.Combine(Program.game.directory, "status.png"),
+                b.ToString()
             );
 
         }
