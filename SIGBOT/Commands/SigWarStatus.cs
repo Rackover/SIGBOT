@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using DSharpPlus.Entities;
 using SIGBOT.Components.War;
 using SIGBOT.Components.War.Rules;
+using static SIGBOT.Extensions;
 
 namespace SIGBOT.Commands
 {
@@ -14,6 +15,7 @@ namespace SIGBOT.Commands
     {
         public override async Task Execute(Bot bot, DiscordUser user, DiscordMessage message, string[] args)
         {
+            Console.WriteLine("Requested status, reading from disk...");
             Program.game.ReadFromDisk();
             var disp = Program.game.display;
             disp.WriteToDisk(
@@ -23,24 +25,33 @@ namespace SIGBOT.Commands
                 ),
                 Path.Combine(Program.game.directory, "status.png")
             );
+            Console.WriteLine("Created status, building string.");
 
             var b = new StringBuilder();
-            var pair = Program.game.events.Last();
+
             var bar = "--------------------------------------";
 
-            b.AppendLine(bar);
-            b.AppendLine("**{0}**".Format(string.Format("{0:F}", pair.Key)));
-            b.AppendLine(bar);
+            if (Program.game.events.Count > 0)
+            {
+                var pair = Program.game.events.Last();
+                b.AppendLine(bar);
+                b.AppendLine("**{0}**".Interpolate(string.Format("{0:F}", pair.Key)));
+                b.AppendLine(bar);
 
-            foreach (var evnt in pair.Value) {
-                b.AppendLine(evnt.ToString());
+                foreach (var evnt in pair.Value)
+                {
+                    b.AppendLine(evnt.ToString());
+                }
+                b.AppendLine(bar);
             }
-            b.AppendLine(bar);
+
+            Console.WriteLine("Ready to send status message...");
 
             await message.Channel.SendFileAsync(
                 Path.Combine(Program.game.directory, "status.png"),
                 b.ToString()
             );
+            Console.WriteLine("Sent");
 
         }
     }

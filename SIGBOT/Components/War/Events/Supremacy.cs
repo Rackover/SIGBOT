@@ -13,7 +13,7 @@ namespace SIGBOT.Components.War.Events
         public override string ToString()
         {
             var winr = Program.game.map.teams[winner];
-            return "**Tout le monde travaille désormais sur le projet {0}.**".Format(winr.name);
+            return "**Tout le monde travaille désormais sur le projet {0}.**".Interpolate(winr.name);
         }
     }
 }

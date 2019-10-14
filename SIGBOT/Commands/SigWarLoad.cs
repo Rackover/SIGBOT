@@ -18,10 +18,14 @@ namespace SIGBOT.Commands
 
             // Rule used
             var rule = new OneTakeRandomStreak();
+            Console.WriteLine("Loaded rule...");
 
             new Game(rule, true);
+            Console.WriteLine("Created game!");
 
             Program.game.channel = message.Channel;
+
+            Console.WriteLine("Loaded, triggering status...");
 
             await new SigWarStatus().Execute(bot, user, message, args);
 

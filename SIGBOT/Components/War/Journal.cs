@@ -31,7 +31,7 @@ namespace SIGBOT.Components.War
 
             foreach(var pair in this)
             {
-                b.AppendLine("**{0}**".Format(string.Format("{0:F}", pair.Key)));
+                b.AppendLine("**{0}**".Interpolate(string.Format("{0:F}", pair.Key)));
                 foreach(var evnt in pair.Value)
                 {
                     b.AppendLine(evnt.ToString());

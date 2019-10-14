@@ -45,14 +45,14 @@ namespace SIGBOT.Components
             now = DateTime.Now;
             //now = now.AddHours(1);
 
-            Console.WriteLine("===================== {0} {1} {2} =====================".Format(Second().ToString(), now.Day.ToString(), lastDay.ToString()));
+            Console.WriteLine("===================== {0} {1} {2} =====================".Interpolate(Second().ToString(), now.Day.ToString(), lastDay.ToString()));
             if (now.Day != lastDay)
             {
                 ResetLastPlayedEvent();
             }
 
             var curr = LastAvailableEvent();
-            Console.WriteLine("Current event: [{0}]".Format(curr != null ? curr.GetHashCode().ToString() : "NULL"));
+            Console.WriteLine("Current event: [{0}]".Interpolate(curr != null ? curr.GetHashCode().ToString() : "NULL"));
             if (curr != lastPlayedEvent && curr != null)
             {
                 Console.WriteLine("RUNNING CURR and setting it as last event");
@@ -69,7 +69,7 @@ namespace SIGBOT.Components
             var lastTime = -1;
             foreach (var time in events.Keys)
             {
-               Console.WriteLine("Checking event at time {0} for second {1}...".Format(time.ToString(), Second().ToString()));
+               Console.WriteLine("Checking event at time {0} for second {1}...".Interpolate(time.ToString(), Second().ToString()));
 
                 if (time < Second())
                     lastTime = time;
@@ -81,7 +81,7 @@ namespace SIGBOT.Components
             if (lastTime == -1)
                 return null;
 
-            Console.WriteLine("Returning event for time {0}".Format(lastTime.ToString()));
+            Console.WriteLine("Returning event for time {0}".Interpolate(lastTime.ToString()));
             
             return events[lastTime];
 

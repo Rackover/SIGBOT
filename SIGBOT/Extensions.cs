@@ -6,7 +6,7 @@ namespace SIGBOT
 {
     public static class Extensions
     {
-        public static string Format(this string str, params string[] args)
+        public static string Interpolate(this string str, params string[] args)
         {
             return string.Format(str, args);
         }

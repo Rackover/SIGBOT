@@ -13,7 +13,7 @@ namespace SIGBOT.Components.War.Events
         public override string ToString()
         {
             var elim = Program.game.map.teams[eliminated];
-            return "**Le projet {0} est annulé car plus personne ne travaille dessus.**".Format(elim.name);
+            return "**Le projet {0} est annulé car plus personne ne travaille dessus.**".Interpolate(elim.name);
         }
     }
 }

@@ -34,7 +34,7 @@ namespace SIGBOT.Commands
                 var bar = "--------------------------------------";
 
                 b.AppendLine(bar);
-                b.AppendLine("**{0}**".Format(string.Format("{0:F}", pair.Key)));
+                b.AppendLine("**{0}**".Interpolate(string.Format("{0:F}", pair.Key)));
                 b.AppendLine(bar);
 
                 foreach (var evnt in pair.Value)

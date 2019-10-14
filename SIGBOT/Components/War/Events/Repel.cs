@@ -13,7 +13,7 @@ namespace SIGBOT.Components.War.Events
         {
             var target = Program.game.map.regions[defendedTerritory];
             var repelld = Program.game.map.teams[repelled];
-            return "{0} songe a travailler sur le projet {1}, mais garde le cap.".Format(target.name, repelld.name);
+            return "{0} songe a travailler sur le projet {1}, mais garde le cap.".Interpolate(target.name, repelld.name);
         }
     }
 }
