@@ -42,12 +42,21 @@ namespace SIGBOT.Commands
                     b.AppendLine(evnt.ToString());
                 }
                 b.AppendLine(bar);
-                
 
-                await Program.game.channel.SendFileAsync(
-                    Path.Combine(Program.game.directory, filename),
-                    b.ToString()
-                );
+                try
+                {
+                    await Program.game.channel.SendFileAsync(
+                        Path.Combine(Program.game.directory, filename),
+                        b.ToString()
+                    );
+                }
+                catch(Exception e)
+                {
+                    Console.WriteLine("Crash avoided: " + e.ToString());
+                    Console.WriteLine("Filename : " + Path.Combine(Program.game.directory, filename));
+                    Console.WriteLine("Channel : " + Program.game.channel);
+                    Console.WriteLine("B : " + b);
+                }
             });
             await message.RespondAsync("Registered at time "+timeString);
         }

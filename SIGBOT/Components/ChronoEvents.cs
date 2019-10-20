@@ -13,12 +13,13 @@ namespace SIGBOT.Components
         public static DateTime now = DateTime.Now;
         int lastDay = 0;
         Action lastPlayedEvent = null;
+        List<DayOfWeek> skippedDays = new List<DayOfWeek>();
 
         public void RegisterAtTime(string time, Action deleg)
         {
             var dTime = DateTime.Parse(time);
             var seconds = dTime.Second + dTime.Minute * 60 + dTime.Hour * 3600;
-          //  Console.WriteLine("Registered events at " + seconds + " seconds");
+
             events[seconds] = deleg;
         }
 
@@ -35,20 +36,33 @@ namespace SIGBOT.Components
             return false;
         }
 
+        public void SkipDay(string day)
+        {
+            DayOfWeek weekDay = (DayOfWeek)Enum.Parse(typeof(DayOfWeek), day);
+            skippedDays.Add(weekDay);
+        }
+
         public void Clear()
         {
             events.Clear();
+            skippedDays.Clear();
         }
 
         public void CheckDate()
         {   
             now = DateTime.Now;
             //now = now.AddHours(1);
-
+            
             Console.WriteLine("===================== {0} {1} {2} =====================".Interpolate(Second().ToString(), now.Day.ToString(), lastDay.ToString()));
             if (now.Day != lastDay)
             {
                 ResetLastPlayedEvent();
+            }
+
+            if (skippedDays.Contains(now.DayOfWeek))
+            {
+                Console.WriteLine(now.DayOfWeek + " is skipped.");
+                return;
             }
 
             var curr = LastAvailableEvent();
