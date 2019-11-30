@@ -7,8 +7,8 @@ namespace SIGBOT.Components.War.Events
 {
     public class Conquest : WarEvent
     {
-        public TEAM loser;
-        public TEAM winner;
+        public byte loser;
+        public byte winner;
         public int conqueredTerritory;
         public override string ToString()
         {

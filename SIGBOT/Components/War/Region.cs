@@ -13,8 +13,8 @@ namespace SIGBOT.Components.War
         public int id;
         public string name;
         public List<int> neighbors = new List<int>();
-        public TEAM owner;
-        public List<TEAM> history = new List<TEAM>();
+        public byte owner;
+        public List<byte> history = new List<byte>();
 
         // Pivot point of regions is top left (0,0)
         public Vector2 position;

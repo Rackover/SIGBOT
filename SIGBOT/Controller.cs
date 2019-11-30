@@ -19,6 +19,8 @@ namespace SIGBOT
             Add("sigwarremovetick", new Commands.SigWarRemoveTick());
             Add("sigwarhere", new Commands.SigWarHere());
             Add("sigwarskipday", new Commands.SigWarSkipDay());
+            Add("curse", new Commands.SigWarCurse());
+            Add("sigwarteams", new Commands.SigWarTeams());
         }
     }
 }

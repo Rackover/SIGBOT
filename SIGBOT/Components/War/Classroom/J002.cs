@@ -5,17 +5,30 @@ namespace SIGBOT.Components.War.Classroom
 {
     public class J002 : Map
     {
+        static class TEAM
+        {
+            public static byte PLANETFOG = 0;
+            public static byte PLIPPLOP = 1;
+            public static byte RIPPLE = 2;
+            public static byte BATTLECARS = 3;
+            public static byte OMBRES = 4;
+            public static byte TOUGHCOOKIE = 5;
+            public static byte HAULAWAY = 6;
+            public static byte ROBOTS = 7;
+            public static byte NEUTRAL = 8;
+        }
+
         public J002(){
                     // Initializing every team
-            teams.Add(new Team("A planet in the fog", TEAM.PLANETFOG, Color.WhiteSmoke));
-            teams.Add(new Team("Plip plop", TEAM.PLIPPLOP, Color.Salmon));
-            teams.Add(new Team("Ripple", TEAM.RIPPLE, Color.LimeGreen));
-            teams.Add(new Team("Battle cars", TEAM.BATTLECARS, Color.Gold));
-            teams.Add(new Team("Ombres", TEAM.OMBRES, Color.Purple));
-            teams.Add(new Team("Tough Kookie", TEAM.TOUGHCOOKIE, Color.Orange));
-            teams.Add(new Team("Haul away", TEAM.HAULAWAY, Color.Teal));
-            teams.Add(new Team("Robots them up", TEAM.ROBOTS, Color.DodgerBlue));
-            teams.Add(new Team("Equipe pédagogique", TEAM.NEUTRAL, Color.Gray));
+            teams.Add(new Team("A planet in the fog", TEAM.PLANETFOG, Color.WhiteSmoke, "Montserrat Light"));
+            teams.Add(new Team("plip plop", TEAM.PLIPPLOP, Color.Salmon, "mini-wakuwaku"));
+            teams.Add(new Team("Ripple", TEAM.RIPPLE, Color.LimeGreen, "Kaushan Script"));
+            teams.Add(new Team("Battle cars", TEAM.BATTLECARS, Color.Gold, "Rubik Black"));
+            teams.Add(new Team("Materia prima", TEAM.OMBRES, Color.Purple, "Bebas Neue"));
+            teams.Add(new Team("Tough Kookie", TEAM.TOUGHCOOKIE, Color.Orange, "Baloo"));
+            teams.Add(new Team("Haul away", TEAM.HAULAWAY, Color.Teal, "Satturday Collection"));
+            teams.Add(new Team("Robots 'em up", TEAM.ROBOTS, Color.DodgerBlue, "Osaka-Sans Serif"));
+            teams.Add(new Team("Equipe pédagogique", TEAM.NEUTRAL, Color.Gray, "Calibri"));
 
             CreateRegions();
             ResizeRegions();
@@ -51,17 +64,19 @@ namespace SIGBOT.Components.War.Classroom
             regions["Romain"].ConnectWith(regions["Valentin"]);
             regions["Arthur"].ConnectWith(regions["Valentin"]);
 
+            // Ripple
+            regions["Marc"].ConnectWith(regions["Gaétan R"]);
+            regions["Alessandro"].ConnectWith(regions["Fabrice"]);
+            regions["Morgane"].ConnectWith(regions["Jim"]);
+            regions["Marie"].ConnectWith(regions["Clément"]);
+
+            // Haul Away
+            regions["Clément"].ConnectWith(regions["Théophile"]);
+            regions["Lys"].ConnectWith(regions["Eve"]);
+
             // Tough Kookie
                 // Done already
 
-            
-            // Haul Away
-            regions["Marc"].ConnectWith(regions["Gaétan R"]);
-            regions["Alessandro"].ConnectWith(regions["Fabrice"]);
-            regions["Marie"].ConnectWith(regions["Jim"]);
-            regions["Simon"].ConnectWith(regions["Clément"]);
-            regions["Clément"].ConnectWith(regions["Théophile"]);
-            regions["Lys"].ConnectWith(regions["Eve"]);
 
             // Ombres
                 // Done already

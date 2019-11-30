@@ -15,8 +15,19 @@ namespace SIGBOT.Commands
     {
         public override async Task Execute(Bot bot, DiscordUser user, DiscordMessage message, string[] args)
         {
+            if (Program.game == null)
+            {
+                await message.RespondAsync("Sigwar isn't running, no status can be read.");
+                return;
+            }
+
             Console.WriteLine("Requested status, reading from disk...");
             Program.game.ReadFromDisk();
+            if (Program.game.map == null)
+            {
+                await message.RespondAsync("Couldn't read the status from disk (?)");
+                return;
+            }
             var disp = Program.game.display;
             disp.WriteToDisk(
                 disp.DrawMap(
