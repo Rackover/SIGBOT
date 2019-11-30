@@ -19,9 +19,33 @@ namespace SIGBOT.Components.War.Rules
             {
                 foreach(var _ in team.territory)
                 {
-                    teamPickList.Add(team.id);
+                    foreach (var notMe in teams.FindAll(o => o.id != team.id))
+                    {
+                        if (!curses.ContainsKey(notMe.id)) curses[notMe.id] = 0;
+                        for (int i = 0; i <= curses[notMe.id]; i++)
+                        {
+                            // For each curse that is not on me, I add myself to the list
+                            teamPickList.Add(team.id);
+                        }
+                    }
                 }
             }
+
+            // Statistics
+            var stats = new Dictionary<TEAM, int>();
+            int total = 0;
+            foreach(var potentialTarget in teamPickList)
+            {
+                if (!stats.ContainsKey(potentialTarget)) stats[potentialTarget] = 0;
+                stats[potentialTarget]++;
+                total++;
+            }
+            foreach(var team in teams)
+            {
+                Console.WriteLine("STAT: Team " + team + " has " + MathF.Round((stats[team.id] / total) * 100f) + "% chances to be hit!");
+            }
+            // Endof
+
 
             var attacker = teamPickList[new Random().Next(teamPickList.Count)];
             var streak = 1f;
@@ -31,25 +55,23 @@ namespace SIGBOT.Components.War.Rules
                 var targets = new List<Region>();
                 foreach (var region in team.GetTerritory())
                 {
-                    foreach (var neighbor in region.neighbors)
+                    foreach (var neighbor in region.neighbors.FindAll(o => Program.game.map.regions[o].owner != team.id))
                     {
-                        if (Program.game.map.regions[neighbor].owner == team.id) continue;
-                        targets.Add(Program.game.map.regions[neighbor]);
+                        for (var j = 0; j <= curses[team.id]; j++) {
+                            targets.Add(Program.game.map.regions[neighbor]);
+                        }
                     }
                 }
 
-                    if (targets.Count == 0) break; // No target
+                if (targets.Count == 0) break; // No possible target
 
                 var i = new Random().Next(targets.Count);
                 var target = targets[i];
 
-                if (// Random invasion fail chance
-                    //new Random().Next(100) > 60 + team.territory.Count * 3
-                    //|| 
-                    // Streak fail
-                    (streak > 1 && new Random().NextDouble() * streak * (20f / step) > team.territory.Count / 50f))
+                if (// Streak fail
+                    (streak > 1 && new Random().NextDouble() * streak * (20f / step) > (team.territory.Count-curses[team.id] / 50f)))
                 {
-                    //events.Add(new Repel() { defendedTerritory = target, repelled = team });
+                    Program.game.events.Add(new Repel() { defendedTerritory = target.id, repelled = team.id });
                     break; 
                 }
 

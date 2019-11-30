@@ -14,6 +14,12 @@ namespace SIGBOT.Commands
 
         public override async Task Execute(Bot bot, DiscordUser user, DiscordMessage message, string[] args)
         {
+            if (args.Length < 1)
+            {
+                await message.RespondAsync("You need to supply a target for the curse.\nNo curse was cast.");
+                return;
+            }
+
             if (Program.game.rule is OneTakeRandomStreakCurse)
             {
                 var curseRule = (OneTakeRandomStreakCurse)Program.game.rule;
