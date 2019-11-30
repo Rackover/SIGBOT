@@ -8,12 +8,12 @@ namespace SIGBOT.Components.War.Classroom
         public J002(){
                     // Initializing every team
             teams.Add(new Team("A planet in the fog", TEAM.PLANETFOG, Color.WhiteSmoke));
-            teams.Add(new Team("Plip plop", TEAM.PLIPPLOP, Color.Salmon));
+            teams.Add(new Team("plip plop", TEAM.PLIPPLOP, Color.Salmon, "mini-wakuwaku"));
             teams.Add(new Team("Ripple", TEAM.RIPPLE, Color.LimeGreen));
             teams.Add(new Team("Battle cars", TEAM.BATTLECARS, Color.Gold));
-            teams.Add(new Team("Ombres", TEAM.OMBRES, Color.Purple));
-            teams.Add(new Team("Tough Kookie", TEAM.TOUGHCOOKIE, Color.Orange));
-            teams.Add(new Team("Haul away", TEAM.HAULAWAY, Color.Teal));
+            teams.Add(new Team("Materia prima", TEAM.OMBRES, Color.Purple));
+            teams.Add(new Team("Tough Kookie", TEAM.TOUGHCOOKIE, Color.Orange, "Baloo"));
+            teams.Add(new Team("Haul away", TEAM.HAULAWAY, Color.Teal, "Satturday Collection"));
             teams.Add(new Team("Robots them up", TEAM.ROBOTS, Color.DodgerBlue));
             teams.Add(new Team("Equipe pédagogique", TEAM.NEUTRAL, Color.Gray));
 

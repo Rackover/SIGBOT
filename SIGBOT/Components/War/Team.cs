@@ -14,12 +14,14 @@ namespace SIGBOT.Components.War
         public string name;
         public List<int> territory = new List<int>();
         public TEAM id;
+        public string font;
 
-        public Team(string name, TEAM id, Color color)
+        public Team(string name, TEAM id, Color color, string font=null)
         {
             this.name = name;
             this.color = color;
             this.id = id;
+            this.font = font;
         }
 
         public void TakeOwnershipOf(Region region)

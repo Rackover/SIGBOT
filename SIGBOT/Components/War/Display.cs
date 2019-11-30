@@ -26,29 +26,47 @@ namespace SIGBOT.Components.War
             var pen = new Pen(Color.Black, STROKE);
             image.FillRectangle(brush, new Rectangle(0, 0, W*SCALE, H*SCALE));
 
+            // Draw bridges
+            foreach(var region in regions)
+            {
+                foreach (var neighbor in region.neighbors) {
+                    var neighborRegion = regions.Find(o => o.id == neighbor);
+                    pen.Color = Color.Gray;
+                    DrawLink(image, region, neighborRegion, pen);
+                }
+            }
 
-            foreach(var team in teams){
+            foreach (var team in teams)
+            {
 
                 if (team.territory.Count == 0) continue; // Team eliminated
 
                 var a = team.GetTerritory();
                 if (team.territory.Count != a.Count)
                 {
-                    Console.WriteLine("Territory count mismatch for " + team.name + ", expected "+team.territory.Count + ", got "+a.Count);
+                    Console.WriteLine("Territory count mismatch for " + team.name + ", expected " + team.territory.Count + ", got " + a.Count);
                     Console.WriteLine(team.territory[0]);
                     Console.WriteLine(regions[team.territory[0]]);
                     throw new Exception();
                 }
 
                 // Regions
-                var points = new List<Vector2>();
-                foreach (var region in team.GetTerritory()){
+                foreach (var region in team.GetTerritory())
+                {
                     pen.Color = Color.Black;
                     pen.Width = 1;
-                    points.Add(region.position + region.size/2f);
                     DrawRegion(image, region, brush, pen);
                 }
-                
+            }
+
+            foreach (var team in teams){
+
+                var points = new List<Vector2>();
+                foreach (var region in team.GetTerritory())
+                {
+                    points.Add(region.position + region.size / 2f);
+                }
+
                 // Team tag
                 float x = 0f;
                 float y = 0f;
@@ -69,7 +87,7 @@ namespace SIGBOT.Components.War
                 var height = Math.Max(points.Count*2f, 7f);
 
                 brush.Color = Color.Black;
-                image.DrawString(team.name, new Font("Impact", Math.Max(minFontSize, points.Count/fontRedux)*SCALE), brush, new RectangleF(
+                image.DrawString(team.name, new Font(team.font ?? "Impact", Math.Max(minFontSize, points.Count/fontRedux)*SCALE), brush, new RectangleF(
                     Math.Max(0, x - width/2) * SCALE,
                     Math.Max(0, y - height/2) * SCALE,
                     Math.Min(W, width) * SCALE,
