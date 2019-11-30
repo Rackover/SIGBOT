@@ -7,7 +7,7 @@ namespace SIGBOT.Components.War.Events
 {
     public class Supremacy : WarEvent
     {
-        public TEAM winner;
+        public byte winner;
         public int lastConquest;
 
         public override string ToString()

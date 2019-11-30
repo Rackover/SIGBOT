@@ -13,10 +13,10 @@ namespace SIGBOT.Components.War
         public Color color;
         public string name;
         public List<int> territory = new List<int>();
-        public TEAM id;
+        public byte id;
         public string font;
 
-        public Team(string name, TEAM id, Color color, string font=null)
+        public Team(string name, byte id, Color color, string font=null)
         {
             this.name = name;
             this.color = color;

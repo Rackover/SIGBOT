@@ -10,7 +10,7 @@ namespace SIGBOT.Components.War.Rules
     {
         public override void Advance(Teams teams, List<Region> regions, int step)
         {
-            var teamPickList = new List<TEAM>();
+            var teamPickList = new List<byte>();
 
             foreach (var team in teams)
             {

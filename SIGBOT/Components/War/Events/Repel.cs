@@ -7,7 +7,7 @@ namespace SIGBOT.Components.War.Events
 {
     public class Repel : WarEvent
     {
-        public TEAM repelled;
+        public byte repelled;
         public int defendedTerritory;
         public override string ToString()
         {

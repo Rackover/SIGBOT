@@ -9,8 +9,7 @@ namespace SIGBOT.Components.War.Rules
     {
         public override void Advance(Teams teams, List<Region> regions, int step)
         {
-            var teamHeads = Enum.GetValues(typeof(TEAM));
-            var playingTeam = teams[(TEAM)teamHeads.GetValue(new Random().Next(teamHeads.Length))];
+            var playingTeam = teams[new Random().Next(teams.Count)];
 
             var targets = new List<Region>();
             foreach (var region in playingTeam.GetTerritory())

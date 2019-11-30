@@ -8,12 +8,12 @@ namespace SIGBOT.Components.War.Rules
 {
     public class OneTakeRandomStreakCurse : Rule
     {
-        public Dictionary<TEAM, int> curses = new Dictionary<TEAM, int>();
+        public Dictionary<byte, int> curses = new Dictionary<byte, int>();
         public bool canResetCurseGivers = true;
 
         public override void Advance(Teams teams, List<Region> regions, int step)
         {
-            var teamPickList = new List<TEAM>();
+            var teamPickList = new List<byte>();
 
             foreach (var team in teams)
             {
@@ -32,7 +32,7 @@ namespace SIGBOT.Components.War.Rules
             }
 
             // Statistics
-            var stats = new Dictionary<TEAM, int>();
+            var stats = new Dictionary<byte, int>();
             int total = 0;
             foreach(var potentialTarget in teamPickList)
             {
@@ -42,7 +42,7 @@ namespace SIGBOT.Components.War.Rules
             }
             foreach(var team in teams)
             {
-                Console.WriteLine("STAT: Team " + team.id + " has " + MathF.Round((stats[team.id] / (float)total) * 100f) + "% chances to play!");
+                Console.WriteLine("STAT: Team " + team.name + " has " + MathF.Round((stats[team.id] / (float)total) * 100f) + "% chances to play!");
             }
             // Endof
 

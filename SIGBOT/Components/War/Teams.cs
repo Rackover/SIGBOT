@@ -8,7 +8,7 @@ namespace SIGBOT.Components.War
     [Serializable]
     public class Teams : List<Team>
     {
-        public Team this[TEAM id] {
+        public Team this[byte id] {
             get {
                 return Find(o => o.id == id); 
             }

@@ -30,22 +30,15 @@ namespace SIGBOT.Commands
                 }
 
                 string givenName = string.Join(' ', args).Replace(" ", string.Empty);
-                TEAM target;
-
-                // Let's see if the supplied team name is an enum (like PLIPPLOP, PLANETFOG, etc...)
-                var validTeam = Enum.TryParse<TEAM>(givenName, true, out target);
-
-                if (!validTeam)
+                
+                var team = Program.game.map.teams.Find(o => o.name.Replace(" ", string.Empty).Equals(givenName, StringComparison.OrdinalIgnoreCase));
+                if (team == null)
                 {
-                    // Not a valid enum ? Maybe it's a team name...
-                    var team = Program.game.map.teams.Find(o => o.name.Replace(" ", string.Empty).Equals(givenName, StringComparison.OrdinalIgnoreCase));
-                    if (team == null)
-                    {
-                        await message.RespondAsync("I couldn't find the team [" + args[0] + "].\nPlease fire >sigwarteams to get a list of keywords.\nNo curse was cast.");
-                        return;
-                    }
-                    target = team.id;
+                    await message.RespondAsync("I couldn't find the team [" + args[0] + "].\nPlease fire >sigwarteams to get a list of keywords.\nNo curse was cast.");
+                    return;
                 }
+                byte target = team.id;
+                
 
                 if (!curseRule.curses.ContainsKey(target))
                     curseRule.curses[target] = 0;
@@ -56,12 +49,18 @@ namespace SIGBOT.Commands
                     return;
                 }
 
+                if (team.territory.Count <= 0)
+                {
+                    await message.RespondAsync("It is no good to curse on the dead. 💀\nNo curse was cast.");
+                    return;
+                }
+
                 curseRule.curses[target] += 1; //Added one curse 
                 curseGivers.Add(user);
-                await message.RespondAsync("The curse on `"+target+"` is cast!\nMay their fate be terrible and their life short.");
+                await message.RespondAsync("The curse on `"+ team.name + "` is cast!\nMay their fate be terrible and their life short.");
 
                 var logo = user.Id % 5 == 0 ? "☄" : user.Id % 3 == 0 ? "⚡" : user.Id % 2 == 0 ? "🌟" : "🌠";
-                await Program.game.channel.SendMessageAsync("A curse was cast upon " + Program.game.map.teams.Find(o => o.id == target).name + "! "+logo);
+                await Program.game.channel.SendMessageAsync("A curse was cast upon " + team.name + "! "+logo);
 
             }
             else

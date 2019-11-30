@@ -5,12 +5,25 @@ namespace SIGBOT.Components.War.Classroom
 {
     public class J002 : Map
     {
+        static class TEAM
+        {
+            public static byte PLANETFOG = 0;
+            public static byte PLIPPLOP = 1;
+            public static byte RIPPLE = 2;
+            public static byte BATTLECARS = 3;
+            public static byte OMBRES = 4;
+            public static byte TOUGHCOOKIE = 5;
+            public static byte HAULAWAY = 6;
+            public static byte ROBOTS = 7;
+            public static byte NEUTRAL = 8;
+        }
+
         public J002(){
                     // Initializing every team
             teams.Add(new Team("A planet in the fog", TEAM.PLANETFOG, Color.WhiteSmoke, "Montserrat Light"));
             teams.Add(new Team("plip plop", TEAM.PLIPPLOP, Color.Salmon, "mini-wakuwaku"));
             teams.Add(new Team("Ripple", TEAM.RIPPLE, Color.LimeGreen, "Kaushan Script"));
-            teams.Add(new Team("Battle cars", TEAM.BATTLECARS, Color.Gold));
+            teams.Add(new Team("Battle cars", TEAM.BATTLECARS, Color.Gold, "Rubik Black"));
             teams.Add(new Team("Materia prima", TEAM.OMBRES, Color.Purple, "Bebas Neue"));
             teams.Add(new Team("Tough Kookie", TEAM.TOUGHCOOKIE, Color.Orange, "Baloo"));
             teams.Add(new Team("Haul away", TEAM.HAULAWAY, Color.Teal, "Satturday Collection"));

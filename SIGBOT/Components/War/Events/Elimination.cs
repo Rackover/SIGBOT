@@ -7,8 +7,8 @@ namespace SIGBOT.Components.War.Events
 {
     public class Elimination : WarEvent
     {
-        public TEAM eliminated;
-        public TEAM killer;
+        public byte eliminated;
+        public byte killer;
         public int lastOwnedTerritory;
         public override string ToString()
         {
