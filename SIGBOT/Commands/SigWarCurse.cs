@@ -56,7 +56,7 @@ namespace SIGBOT.Commands
                     return;
                 }
 
-                curseRule.curses[target] += 20; //Added one curse
+                curseRule.curses[target] += 1; //Added one curse
                 curseGivers.Add(user);
                 await message.RespondAsync("The curse on `"+target+"`  is cast!");
 
