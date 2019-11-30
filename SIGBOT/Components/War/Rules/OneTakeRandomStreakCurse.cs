@@ -42,7 +42,7 @@ namespace SIGBOT.Components.War.Rules
             }
             foreach(var team in teams)
             {
-                Console.WriteLine("STAT: Team " + team + " has " + MathF.Round((stats[team.id] / total) * 100f) + "% chances to be hit!");
+                Console.WriteLine("STAT: Team " + team.id + " has " + MathF.Round((stats[team.id] / (float)total) * 100f) + "% chances to play!");
             }
             // Endof
 
@@ -69,7 +69,7 @@ namespace SIGBOT.Components.War.Rules
                 var target = targets[i];
 
                 if (// Streak fail
-                    (streak > 1 && new Random().NextDouble() * streak * (20f / step) > (team.territory.Count-curses[team.id] / 50f)))
+                    (streak > 1 && new Random().NextDouble() * streak * (20f / step) > ((team.territory.Count-curses[team.id]) / 50f)))
                 {
                     Program.game.events.Add(new Repel() { defendedTerritory = target.id, repelled = team.id });
                     break; 

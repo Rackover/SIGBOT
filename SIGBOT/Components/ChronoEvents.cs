@@ -61,7 +61,7 @@ namespace SIGBOT.Components
 
             if (skippedDays.Contains(now.DayOfWeek))
             {
-                Console.WriteLine(now.DayOfWeek + " is skipped.");
+                //Console.WriteLine(now.DayOfWeek + " is skipped.");
                 return;
             }
 
@@ -81,9 +81,9 @@ namespace SIGBOT.Components
                 return null;
 
             var lastTime = -1;
-            foreach (var time in events.Keys)
+            foreach (var time in events.Keys.OrderBy(o=> o))
             {
-               Console.WriteLine("Checking event at time {0} for second {1}...".Interpolate(time.ToString(), Second().ToString()));
+               //Console.WriteLine("Checking event at time {0} for second {1}...".Interpolate(time.ToString(), Second().ToString()));
 
                 if (time < Second())
                     lastTime = time;
@@ -95,7 +95,7 @@ namespace SIGBOT.Components
             if (lastTime == -1)
                 return null;
 
-            Console.WriteLine("Returning event for time {0}".Interpolate(lastTime.ToString()));
+            //Console.WriteLine("Returning event for time {0}".Interpolate(lastTime.ToString()));
             
             return events[lastTime];
 
@@ -105,7 +105,7 @@ namespace SIGBOT.Components
         {
             lastDay = now.Day;
             lastPlayedEvent = null;
-            Console.WriteLine("Reset last event to NULL");
+            //Console.WriteLine("Reset last event to NULL");
         }
 
         int Second()
