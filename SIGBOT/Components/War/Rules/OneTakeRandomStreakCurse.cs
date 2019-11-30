@@ -8,6 +8,9 @@ namespace SIGBOT.Components.War.Rules
 {
     public class OneTakeRandomStreakCurse : Rule
     {
+        public Dictionary<TEAM, int> curses = new Dictionary<TEAM, int>();
+        public bool canResetCurseGivers = true;
+
         public override void Advance(Teams teams, List<Region> regions, int step)
         {
             var teamPickList = new List<TEAM>();
@@ -55,7 +58,9 @@ namespace SIGBOT.Components.War.Rules
 
                 streak++;
             }
-            
+
+            canResetCurseGivers = false;
+            curses.Clear();
         }
     }
 }
