@@ -43,6 +43,7 @@ namespace SIGBOT
         async Task Run()
         {
             await client.ConnectAsync();
+            Console.WriteLine("Running!");
             await Task.Delay(-1);
         }
 

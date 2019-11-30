@@ -80,8 +80,8 @@ namespace SIGBOT.Components.War.Rules
 
                 streak++;
             }
-
-            canResetCurseGivers = false;
+            
+            canResetCurseGivers = true;
             curses.Clear();
         }
     }

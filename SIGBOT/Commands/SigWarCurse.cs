@@ -56,9 +56,12 @@ namespace SIGBOT.Commands
                     return;
                 }
 
-                curseRule.curses[target] += 1; //Added one curse
+                curseRule.curses[target] += 1; //Added one curse 
                 curseGivers.Add(user);
-                await message.RespondAsync("The curse on `"+target+"`  is cast!");
+                await message.RespondAsync("The curse on `"+target+"` is cast!\nMay their fate be terrible and their life short.");
+
+                var logo = user.Id % 5 == 0 ? "☄" : user.Id % 3 == 0 ? "⚡" : user.Id % 2 == 0 ? "🌟" : "🌠";
+                await Program.game.channel.SendMessageAsync("A curse was cast upon " + Program.game.map.teams.Find(o => o.id == target).name + "! "+logo);
 
             }
             else
