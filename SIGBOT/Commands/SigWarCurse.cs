@@ -29,7 +29,7 @@ namespace SIGBOT.Commands
                     curseRule.canResetCurseGivers = false;
                 }
 
-                string givenName = args[0].Replace(" ", string.Empty);
+                string givenName = string.Join(' ', args).Replace(" ", string.Empty);
                 TEAM target;
 
                 // Let's see if the supplied team name is an enum (like PLIPPLOP, PLANETFOG, etc...)
@@ -57,6 +57,7 @@ namespace SIGBOT.Commands
                 }
 
                 curseRule.curses[target] += 1; //Added one curse
+                curseGivers.Add(user);
                 await message.RespondAsync("The curse on `"+target+"`  is cast!");
 
             }

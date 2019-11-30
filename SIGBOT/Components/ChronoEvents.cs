@@ -53,7 +53,7 @@ namespace SIGBOT.Components
             now = DateTime.Now;
             //now = now.AddHours(1);
             
-            Console.WriteLine("===================== {0} {1} {2} =====================".Interpolate(Second().ToString(), now.Day.ToString(), lastDay.ToString()));
+            //Console.WriteLine("===================== {0} {1} {2} =====================".Interpolate(Second().ToString(), now.Day.ToString(), lastDay.ToString()));
             if (now.Day != lastDay)
             {
                 ResetLastPlayedEvent();
@@ -66,10 +66,10 @@ namespace SIGBOT.Components
             }
 
             var curr = LastAvailableEvent();
-            Console.WriteLine("Current event: [{0}]".Interpolate(curr != null ? curr.GetHashCode().ToString() : "NULL"));
+            //Console.WriteLine("Current event: [{0}]".Interpolate(curr != null ? curr.GetHashCode().ToString() : "NULL"));
             if (curr != lastPlayedEvent && curr != null)
             {
-                Console.WriteLine("RUNNING CURR and setting it as last event");
+                //Console.WriteLine("RUNNING CURR and setting it as last event");
                 lastPlayedEvent = curr;
                 Task.Run(curr);
             }
