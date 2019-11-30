@@ -17,7 +17,7 @@ namespace SIGBOT.Commands
             Console.WriteLine("Starting SIGWAR...");
 
             // Rule used
-            var rule = new OneTakeRandomStreak();
+            var rule = new OneTakeRandomStreakCurse();
 
             new Game(rule);
 
