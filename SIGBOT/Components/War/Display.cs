@@ -44,9 +44,9 @@ namespace SIGBOT.Components.War
                 var a = team.GetTerritory();
                 if (team.territory.Count != a.Count)
                 {
-                    Console.WriteLine("Territory count mismatch for " + team.name + ", expected " + team.territory.Count + ", got " + a.Count);
-                    Console.WriteLine(team.territory[0]);
-                    Console.WriteLine(regions[team.territory[0]]);
+                    Log.Warn("Territory count mismatch for " + team.name + ", expected " + team.territory.Count + ", got " + a.Count);
+                    Log.Warn(team.territory[0]);
+                    Log.Warn(regions[team.territory[0]]);
                     throw new Exception();
                 }
 

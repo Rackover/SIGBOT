@@ -28,7 +28,7 @@ namespace SIGBOT.Components.War
             display = new Display(scale: 10);
 
             if (load) {
-                Console.WriteLine("Reading from disk...");
+                Log.Info("Reading from disk...");
                 ReadFromDisk();
             }
             else {
@@ -50,9 +50,9 @@ namespace SIGBOT.Components.War
         public void ReadFromDisk()
         {
             if (!File.Exists(Path.Combine(directory, "map.json"))) return;
-            Console.WriteLine("Reading all text...");
+            Log.Trace("Reading all text...");
             var data = File.ReadAllText(Path.Combine(directory, "map.json"));
-            Console.WriteLine("Deserializing...");
+            Log.Trace("Deserializing...");
             Map map;
             try
             {
@@ -60,10 +60,10 @@ namespace SIGBOT.Components.War
             }
             catch(Exception e)
             {
-                Console.WriteLine(e);
+                Log.Err(e);
                 throw new Exception(e.ToString());
             }
-            Console.WriteLine("Done!");
+            Log.Trace("Done!");
             this.map = map;
         }
 

@@ -14,22 +14,22 @@ namespace SIGBOT.Commands
     {
         public override async Task Execute(Bot bot, DiscordUser user, DiscordMessage message, string[] args)
         {
-            Console.WriteLine("Loading SIGWAR...");
+            Log.Info("Loading SIGWAR...");
 
             // Rule used
             var rule = new OneTakeRandomStreak();
-            Console.WriteLine("Loaded rule...");
+            Log.Trace("Loaded rule...");
 
             new Game(rule, true);
-            Console.WriteLine("Created game!");
+            Log.Trace("Created game!");
 
             Program.game.channel = message.Channel;
 
-            Console.WriteLine("Loaded, triggering status...");
+            Log.Trace("Loaded, triggering status...");
 
             await new SigWarStatus().Execute(bot, user, message, args);
 
-            Console.WriteLine("SIGWAR loaded. Register ticks to get it going with >SigWarAdvanceAt HH:MM:SS");
+            Log.Info("SIGWAR loaded. Register ticks to get it going with >SigWarAdvanceAt HH:MM:SS");
         }
     }
 }

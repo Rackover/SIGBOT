@@ -26,7 +26,7 @@ namespace SIGBOT.Components.War.Rules
                 while (true)
                 {
                     var i = new Random().Next(targets.Count);
-                    Console.WriteLine(i);
+                    Log.Trace(i);
                     var target = targets[i];
 
                     if (new Random().Next(100) > 90/streak) break; // Invasion failed; break streak

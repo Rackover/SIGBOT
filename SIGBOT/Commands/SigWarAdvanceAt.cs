@@ -52,10 +52,10 @@ namespace SIGBOT.Commands
                 }
                 catch(Exception e)
                 {
-                    Console.WriteLine("Crash avoided: " + e.ToString());
-                    Console.WriteLine("Filename : " + Path.Combine(Program.game.directory, filename));
-                    Console.WriteLine("Channel : " + Program.game.channel);
-                    Console.WriteLine("B : " + b);
+                    Log.Err("Crash avoided: " + e.ToString());
+                    Log.Err("Filename : " + Path.Combine(Program.game.directory, filename));
+                    Log.Err("Channel : " + Program.game.channel);
+                    Log.Err("B : " + b);
                 }
             });
             await message.RespondAsync("Registered at time "+timeString);

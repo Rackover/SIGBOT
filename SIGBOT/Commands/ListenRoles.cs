@@ -11,8 +11,8 @@ namespace SIGBOT.Commands
         public override async Task Execute(Bot bot, DiscordUser user, DiscordMessage message, string[] args)
         {
             bot.roleOnReact.message = await message.Channel.GetMessageAsync(Convert.ToUInt64(args[0]));
-            
-            Console.WriteLine("Replaced role listening message id with " + message.Id);
+
+            Log.Info("Replaced role listening message id with " + message.Id);
         }
     }
 }

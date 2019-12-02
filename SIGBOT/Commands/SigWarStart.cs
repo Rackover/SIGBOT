@@ -14,7 +14,7 @@ namespace SIGBOT.Commands
     {
         public override async Task Execute(Bot bot, DiscordUser user, DiscordMessage message, string[] args)
         {
-            Console.WriteLine("Starting SIGWAR...");
+            Log.Info("Starting SIGWAR...");
 
             // Rule used
             var rule = new OneTakeRandomStreakCurse();
@@ -26,7 +26,7 @@ namespace SIGBOT.Commands
             await new SigWarStatus().Execute(bot, user, message, args);
 
             await message.RespondAsync("Tout va bien dans la salle.");
-            Console.WriteLine("SIGWAR started. Register ticks to get it going with >SigWarAdvanceAt HH:MM:SS");
+            Log.Info("SIGWAR started. Register ticks to get it going with >SigWarAdvanceAt HH:MM:SS");
         }
     }
 }

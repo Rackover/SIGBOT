@@ -42,7 +42,7 @@ namespace SIGBOT.Components.War.Rules
             }
             foreach(var team in teams)
             {
-                Console.WriteLine("STAT: Team " + team.name + " has " + MathF.Round((stats[team.id] / (float)total) * 100f) + "% chances to play!");
+                Log.Trace("STAT: Team " + team.name + " has " + MathF.Round((stats[team.id] / (float)total) * 100f) + "% chances to play!");
             }
             // Endof
 

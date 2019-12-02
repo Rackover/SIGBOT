@@ -43,7 +43,7 @@ namespace SIGBOT
         async Task Run()
         {
             await client.ConnectAsync();
-            Console.WriteLine("Running!");
+            Log.Info("Running!");
             await Task.Delay(-1);
         }
 
@@ -94,7 +94,7 @@ namespace SIGBOT
                     var args = content.Remove(0, command.Length + 1).Trim().Split(" ");
                     if (controller.ContainsKey(command))
                     {
-                        Console.WriteLine(messageCreate.Author.Username + "#" + messageCreate.Author.Discriminator + ":" + messageCreate.Author.Id + " said: " + messageCreate.Message.Content);
+                        Log.Trace(messageCreate.Author.Username + "#" + messageCreate.Author.Discriminator + ":" + messageCreate.Author.Id + " said: " + messageCreate.Message.Content);
                         try
                         {
                             await controller[command].Execute(
@@ -106,11 +106,11 @@ namespace SIGBOT
                         }
                         catch (IndexOutOfRangeException e)
                         {
-                            Console.WriteLine("Wrong number of arguments for command: " + command + "(" + (args.Length) + ")\n" + e);
+                            Log.Warn("Wrong number of arguments for command: " + command + "(" + (args.Length) + ")\n" + e);
                         }
                         catch (ArgumentException e)
                         {
-                            Console.WriteLine("Internal error for command: " + command + "(" + (args.Length) + ")\n" + e);
+                            Log.Warn("Internal error for command: " + command + "(" + (args.Length) + ")\n" + e);
                         }
                     }
                 }

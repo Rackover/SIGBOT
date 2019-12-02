@@ -14,7 +14,7 @@ namespace SIGBOT.Commands
             var roleId = message.Channel.Guild.GetRole(Convert.ToUInt64(args[1]));
             bot.roleOnReact[emoji] = roleId;
 
-            Console.WriteLine("Linked "+emoji+" with "+roleId);
+            Log.Info("Linked "+emoji+" with "+roleId);
         }
     }
 }

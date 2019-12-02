@@ -21,7 +21,7 @@ namespace SIGBOT.Commands
                 return;
             }
 
-            Console.WriteLine("Requested status, reading from disk...");
+            Log.Trace("Requested status, reading from disk...");
             Program.game.ReadFromDisk();
             if (Program.game.map == null)
             {
@@ -36,7 +36,7 @@ namespace SIGBOT.Commands
                 ),
                 Path.Combine(Program.game.directory, "status.png")
             );
-            Console.WriteLine("Created status, building string.");
+            Log.Trace("Created status, building string.");
 
             var b = new StringBuilder();
 
@@ -56,13 +56,13 @@ namespace SIGBOT.Commands
                 b.AppendLine(bar);
             }
 
-            Console.WriteLine("Ready to send status message...");
+            Log.Trace("Ready to send status message...");
 
             await message.Channel.SendFileAsync(
                 Path.Combine(Program.game.directory, "status.png"),
                 b.ToString()
             );
-            Console.WriteLine("Sent");
+            Log.Trace("Sent");
 
         }
     }
