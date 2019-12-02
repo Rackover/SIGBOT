@@ -10,9 +10,10 @@ namespace SIGBOT.Commands
 {
     class SigWarCurse : Command
     {
-        public List<DiscordUser> curseGivers = new List<DiscordUser>();
+		public Dictionary<Byte, List<DiscordUser>> cursePools = new Dictionary<byte, List<DiscordUser>>();
+		public DiscordMessage status;
 
-        public override async Task Execute(Bot bot, DiscordUser user, DiscordMessage message, string[] args)
+		public override async Task Execute(Bot bot, DiscordUser user, DiscordMessage message, string[] args)
         {
             if (args.Length < 1)
             {
@@ -25,8 +26,9 @@ namespace SIGBOT.Commands
                 var curseRule = (OneTakeRandomStreakCurse)Program.game.rule;
                 if (curseRule.canResetCurseGivers)
                 {
-                    curseGivers.Clear();
+					cursePools.Clear();
                     curseRule.canResetCurseGivers = false;
+					status = null;
                 }
 
                 string givenName = string.Join(' ', args).Replace(" ", string.Empty);
@@ -43,7 +45,7 @@ namespace SIGBOT.Commands
                 if (!curseRule.curses.ContainsKey(target))
                     curseRule.curses[target] = 0;
 
-                if (curseGivers.Contains(user))
+                if (HasAlreadyCursed(user))
                 {
                     await message.RespondAsync("You have already cast a curse for the next battle.\nYou can no longer cast a curse at the moment.\nNo curse was cast.");
                     return;
@@ -55,18 +57,65 @@ namespace SIGBOT.Commands
                     return;
                 }
 
-                curseRule.curses[target] += 1; //Added one curse 
-                curseGivers.Add(user);
+                curseRule.curses[target] += 5; //Added one curse 
+
+				// IF TEAM IS ALREADY CURSED
+				if (!cursePools.ContainsKey(team.id)) cursePools[team.id] = new List<DiscordUser>();
+				cursePools[team.id].Add(user);
+
                 await message.RespondAsync("The curse on `"+ team.name + "` is cast!\nMay their fate be terrible and their life short.");
 
-                var logo = user.Id % 5 == 0 ? "☄" : user.Id % 3 == 0 ? "⚡" : user.Id % 2 == 0 ? "🌟" : "🌠";
-                await Program.game.channel.SendMessageAsync("A curse was cast upon " + team.name + "! "+logo);
+				if(status == null)
+					status = await Program.game.channel.SendMessageAsync(GetCurseStatus());
+				else
+					await status.ModifyAsync(GetCurseStatus());
 
-            }
+				curseRule.curses.Clear();
+				foreach (var teamByte in cursePools.Keys)
+				{
+					curseRule.curses[teamByte] = (cursePools[teamByte].Count);
+				}
+			}
             else
             {
                 await message.RespondAsync("The game is not running, or the current ruleset does not support a Curse command.");
             }
         }
+
+		public string GetCurseStatus()
+		{
+			StringBuilder text = new StringBuilder();
+			text.Append("Curses: ");
+			text.AppendLine();
+			foreach (var teamByte in cursePools.Keys)
+			{
+				text.Append(string.Format("**{0}**", Program.game.map.teams[teamByte].name));
+				text.Append(": ");
+				foreach (DiscordUser u in cursePools[teamByte])
+				{
+					text.Append(GetEmoji(u));
+				}
+				text.AppendLine();
+			}
+			return text.ToString();
+		}
+
+		public string GetEmoji(DiscordUser user)
+		{
+			if (user.Id % 5 == 0) return "☄";
+			else if (user.Id % 3 == 0) return "⚡";
+			else if (user.Id % 2 == 0) return "🌟";
+			else return "🌠";
+		}
+
+		public bool HasAlreadyCursed(DiscordUser user)
+		{
+			foreach (KeyValuePair<byte, List<DiscordUser>> c in cursePools)
+			{
+				foreach(DiscordUser u in c.Value)
+					if (u == user) return true;
+			}
+			return false;
+		}
     }
 }

@@ -14,7 +14,6 @@ namespace SIGBOT.Commands
             foreach(var team in Program.game.map.teams)
             {
                 keywords.Add(team.name);
-                keywords.Add(team.id.ToString());
             }
 
             await message.RespondAsync("List of the SIGWAR teams keywords:\n```" + string.Join('\n', keywords)+"```");
