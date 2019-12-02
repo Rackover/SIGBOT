@@ -17,7 +17,7 @@ namespace SIGBOT.Commands
             Log.Info("Loading SIGWAR...");
 
             // Rule used
-            var rule = new OneTakeRandomStreak();
+            var rule = new OneTakeRandomStreakCurse();
             Log.Trace("Loaded rule...");
 
             new Game(rule, true);

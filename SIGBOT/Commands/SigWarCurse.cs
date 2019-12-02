@@ -10,7 +10,7 @@ namespace SIGBOT.Commands
 {
     class SigWarCurse : Command
     {
-		public Dictionary<Byte, List<DiscordUser>> cursePools = new Dictionary<byte, List<DiscordUser>>();
+		public Dictionary<byte, List<DiscordUser>> cursePools = new Dictionary<byte, List<DiscordUser>>();
 		public DiscordMessage status;
 
 		public override async Task Execute(Bot bot, DiscordUser user, DiscordMessage message, string[] args)
