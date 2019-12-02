@@ -94,6 +94,7 @@ namespace SIGBOT
                     var args = content.Remove(0, command.Length + 1).Trim().Split(" ");
                     if (controller.ContainsKey(command))
                     {
+                        Console.WriteLine(messageCreate.Author.Username + "#" + messageCreate.Author.Discriminator + ":" + messageCreate.Author.Id + " said: " + messageCreate.Message.Content);
                         try
                         {
                             await controller[command].Execute(
