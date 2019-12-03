@@ -15,6 +15,7 @@ namespace SIGBOT.Commands
     {
         public override async Task Execute(Bot bot, DiscordUser user, DiscordMessage message, string[] args)
         {
+
             if (Program.game == null)
             {
                 await message.RespondAsync("Sigwar isn't running, no status can be read.");

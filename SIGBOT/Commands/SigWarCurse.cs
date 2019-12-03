@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using DSharpPlus;
 using DSharpPlus.Entities;
 using SIGBOT.Components.War.Rules;
 using static SIGBOT.Components.War.Map;
@@ -66,9 +67,9 @@ namespace SIGBOT.Commands
                 await message.RespondAsync("The curse on `"+ team.name + "` is cast!\nMay their fate be terrible and their life short.");
 
 				if(status == null)
-					status = await Program.game.channel.SendMessageAsync(GetCurseStatus());
+					status = await Program.game.channel.SendMessageAsync(GetCurseStatus(bot));
 				else
-					await status.ModifyAsync(GetCurseStatus());
+					await status.ModifyAsync(GetCurseStatus(bot));
 
 				curseRule.curses.Clear();
 				foreach (var teamByte in cursePools.Keys)
@@ -82,7 +83,7 @@ namespace SIGBOT.Commands
             }
         }
 
-		public string GetCurseStatus()
+		public string GetCurseStatus(Bot bot)
 		{
 			StringBuilder text = new StringBuilder();
 			text.Append("Curses: ");
@@ -93,19 +94,32 @@ namespace SIGBOT.Commands
 				text.Append(": ");
 				foreach (DiscordUser u in cursePools[teamByte])
 				{
-					text.Append(GetEmoji(u));
+					text.Append(GetEmoji(u, (id) => { return DiscordEmoji.FromGuildEmote(bot.client, id); }));
 				}
 				text.AppendLine();
 			}
 			return text.ToString();
 		}
 
-		public string GetEmoji(DiscordUser user)
+		public string GetEmoji(DiscordUser user, Func<ulong, DiscordEmoji> fetchingFunction)
 		{
-			if (user.Id % 5 == 0) return "☄";
-			else if (user.Id % 3 == 0) return "⚡";
-			else if (user.Id % 2 == 0) return "🌟";
-			else return "🌠";
+            try {
+                if (Program.game.map.emblems.ContainsKey(user.Id)) {
+                    Log.Trace("Getting emblem " + Program.game.map.emblems[user.Id]+"");
+                    var emoji = Program.game.map.emblems[user.Id];
+                    return emoji;
+                }
+            }
+            catch (Exception e){
+                Log.Warn("Could not fetch stored emoji for user " + user.Username);
+                Log.Warn(e.ToString());
+            }
+
+
+            if (user.Id % 5 == 0) return "☄";
+            else if (user.Id % 3 == 0) return "⚡";
+            else if (user.Id % 2 == 0) return "🌟";
+            else return "🌠";
 		}
 
 		public bool HasAlreadyCursed(DiscordUser user)

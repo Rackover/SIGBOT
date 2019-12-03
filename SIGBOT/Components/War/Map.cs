@@ -20,6 +20,7 @@ namespace SIGBOT.Components.War
         public int step = 1;
         public Teams teams = new Teams();
         public Regions regions = new Regions();
+        public Dictionary<ulong, string> emblems = new Dictionary<ulong, string>(); // Key is user ID
     }
 
 }

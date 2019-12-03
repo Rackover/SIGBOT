@@ -21,6 +21,8 @@ namespace SIGBOT
             Add("sigwarskipday", new Commands.SigWarSkipDay());
             Add("curse", new Commands.SigWarCurse());
             Add("sigwarteams", new Commands.SigWarTeams());
+            Add("sigwarsetcurses", new Commands.SigWarSetCurses());
+            Add("sigwaremblem", new Commands.SigWarEmblem());
         }
     }
 }
