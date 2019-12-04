@@ -6,6 +6,7 @@ using SIGBOT.Components.War.Events;
 using Newtonsoft.Json;
 using System.IO;
 using DSharpPlus.Entities;
+using SIGBOT.Components.War.Rules;
 
 namespace SIGBOT.Components.War
 {
@@ -64,6 +65,9 @@ namespace SIGBOT.Components.War
                 throw new Exception(e.ToString());
             }
             Log.Trace("Done!");
+            if (rule is ICurseable) {
+                ((ICurseable)rule).DeclareCursesResetted();
+            }
             this.map = map;
         }
 

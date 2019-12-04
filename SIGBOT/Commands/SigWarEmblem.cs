@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq;
 using DSharpPlus.Entities;
+using NeoSmart.Unicode;
 
 namespace SIGBOT.Commands
 {
@@ -16,13 +18,11 @@ namespace SIGBOT.Commands
             }
             
             string emojiUTF = args[0];
-            Log.Trace("Getting emoji from name [" + emojiUTF + "]");
 
             DiscordEmoji guildEmoji;
 
             try {
                 guildEmoji = DiscordEmoji.FromName(bot.client, emojiUTF);
-                Console.WriteLine("Got emoji from name " + emojiUTF);
             }
             catch {
                 try {
@@ -30,7 +30,7 @@ namespace SIGBOT.Commands
                 }
                 catch {
                     try {
-                        if (!char.IsSymbol(emojiUTF, 0)) throw;
+                        if (Emoji.All.ToList().FindAll(o => o.Sequence.AsString == emojiUTF).Count <= 0) throw;
                         guildEmoji = DiscordEmoji.FromUnicode(bot.client, emojiUTF);
                     }
                     catch {
@@ -45,7 +45,7 @@ namespace SIGBOT.Commands
                 return;
             }
 
-            Program.game.map.emblems[user.Id] = guildEmoji.ToString();
+            Program.game.map.emblems.SetEmblem(user.Id, guildEmoji.ToString());
 
             await message.RespondAsync("Emblem set: "+guildEmoji.ToString()+".\nPlease wait for the next curse or message update for it to refresh.");
         }

@@ -6,24 +6,57 @@ using static SIGBOT.Components.War.Map;
 
 namespace SIGBOT.Components.War.Rules
 {
-    public class OneTakeRandomStreakCurse : Rule
+    public class OneTakeRandomStreakCurse : Rule, ICurseable
     {
-        public Dictionary<byte, int> curses = new Dictionary<byte, int>();
+        readonly int CURSE_POWER = 5;
+
         public bool canResetCurseGivers = true;
+
+        Dictionary<byte, int> curses = new Dictionary<byte, int>();
+
+        public void AddCurse(byte target)
+        {
+            if (!curses.ContainsKey(target)) curses.Add(target, 0);
+            curses[target]+= CURSE_POWER;
+        }
+
+        public void AddCurses(byte target, int amount)
+        {
+            for (int i = 0; i < amount; i++) {
+                AddCurse(target);
+            }
+        }
+
+        public void SetCurses(byte target, int amount)
+        {
+            if (!curses.ContainsKey(target)) curses.Add(target, 0);
+            curses[target] = amount;
+        }
+
+        public bool ShouldResetCurses()
+        {
+            return canResetCurseGivers;
+        }
+
+        public void DeclareCursesResetted()
+        {
+            canResetCurseGivers = false;
+        }
 
         public override void Advance(Teams teams, List<Region> regions, int step)
         {
             var teamPickList = new List<byte>();
 
-            foreach (var team in teams)
-            {
+            foreach (var team in teams) {
+
+                if (!curses.ContainsKey(team.id)) curses.Add(team.id, 0);
+
+                Log.Trace("STAT: Team " + team.name + " has " + curses[team.id] + " power of curse on their back.");
                 foreach(var _ in team.territory)
                 {
-                    foreach (var notMe in teams.FindAll(o => o.id != team.id))
-                    {
-                        if (!curses.ContainsKey(notMe.id)) curses[notMe.id] = 0;
-                        for (int i = 0; i <= curses[notMe.id]; i++)
-                        {
+                    foreach (var notMe in teams.FindAll(o => o.id != team.id)) {
+                        if (!curses.ContainsKey(notMe.id)) curses.Add(notMe.id, 0);
+                        for (int i = 0; i <= curses[notMe.id]; i++) {
                             // For each curse that is not on me, I add myself to the list
                             teamPickList.Add(team.id);
                         }
@@ -55,8 +88,7 @@ namespace SIGBOT.Components.War.Rules
                 var targets = new List<Region>();
                 foreach (var region in team.GetTerritory())
                 {
-                    foreach (var neighbor in region.neighbors.FindAll(o => Program.game.map.regions[o].owner != team.id))
-                    {
+                    foreach (var neighbor in region.neighbors.FindAll(o => Program.game.map.regions[o].owner != team.id)) {
                         for (var j = 0; j <= curses[team.id]; j++) {
                             targets.Add(Program.game.map.regions[neighbor]);
                         }

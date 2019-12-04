@@ -20,9 +20,9 @@ namespace SIGBOT.Commands
                 return;
             }
 
-            if (Program.game != null && Program.game.rule is OneTakeRandomStreakCurse) {
+            if (Program.game != null && Program.game.rule is ICurseable) {
                 Log.Trace("Casting rule to a curse rule");
-                var curseRule = (OneTakeRandomStreakCurse)Program.game.rule;
+                var curseRule = (ICurseable)Program.game.rule;
 
                 string givenName = string.Join(' ', args.Skip(1)).Replace(" ", string.Empty);
                 Log.Trace("Given name is "+givenName);
@@ -41,7 +41,7 @@ namespace SIGBOT.Commands
 
                 Log.Trace("Setting "+amount+" curses to "+team.id);
 
-                curseRule.curses[target] = amount;
+                curseRule.SetCurses(target, amount);
 
                 await message.RespondAsync("Curses for [" + target + "] set to "+amount+".");
             }
