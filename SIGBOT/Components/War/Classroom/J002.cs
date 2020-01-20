@@ -209,12 +209,12 @@ namespace SIGBOT.Components.War.Classroom
             regions.Add(new Region("Rack", teams[TEAM.PLIPPLOP]));
             regions.Add(new Region("Archi", teams[TEAM.PLIPPLOP]));
             regions.Add(new Region("Héloise", teams[TEAM.PLIPPLOP]));
-            regions.Add(new Region("Gaétan C", teams[TEAM.PLIPPLOP]));
+            regions.Add(new Region("Gaëtan C", teams[TEAM.PLIPPLOP]));
             regions.Add(new Region("Louis P", teams[TEAM.PLIPPLOP]));
             regions["Rack"].ConnectWith(regions["Héloise"]);
             regions["Rack"].ConnectWith(regions["Louis P"]);
-            regions["Rack"].ConnectWith(regions["Gaétan C"]);
-            regions["Archi"].ConnectWith(regions["Gaétan C"]);
+            regions["Rack"].ConnectWith(regions["Gaëtan C"]);
+            regions["Archi"].ConnectWith(regions["Gaëtan C"]);
             regions["Archi"].ConnectWith(regions["Héloise"]);
             regions["Dorian"].ConnectWith(regions["Héloise"]);
             regions["Dorian"].ConnectWith(regions["Louis P"]);
