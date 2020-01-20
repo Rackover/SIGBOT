@@ -142,7 +142,7 @@ namespace SIGBOT.Components.War.Classroom
             regions["Louis P"].PutSouthOf(regions["Dorian"]);
             regions["Héloise"].PutEastOf(regions["Dorian"]);
             regions["Archi"].PutEastOf(regions["Héloise"]);
-            regions["Gaétan C"].PutSouthOf(regions["Archi"]);
+            regions["Gaëtan C"].PutSouthOf(regions["Archi"]);
             regions["Rack"].PutSouthOf(regions["Héloise"]);
 
             // Tough K
