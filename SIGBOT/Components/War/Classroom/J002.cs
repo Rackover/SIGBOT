@@ -34,7 +34,7 @@ namespace SIGBOT.Components.War.Classroom
             ResizeRegions();
             MoveRegions();
             MakeBridges();
-        }
+        } 
 
         void MakeBridges(){
             // Plip plop
