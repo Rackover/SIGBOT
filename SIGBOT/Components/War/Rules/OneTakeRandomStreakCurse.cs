@@ -8,7 +8,7 @@ namespace SIGBOT.Components.War.Rules
 {
     public class OneTakeRandomStreakCurse : Rule, ICurseable
     {
-        readonly int CURSE_POWER = 5;
+        readonly int CURSE_POWER = 7;
 
         public bool canResetCurseGivers = true;
 
@@ -52,14 +52,15 @@ namespace SIGBOT.Components.War.Rules
                 if (!curses.ContainsKey(team.id)) curses.Add(team.id, 0);
 
                 Log.Trace("STAT: Team " + team.name + " has " + curses[team.id] + " power of curse on their back.");
-                foreach(var _ in team.territory)
-                {
-                    foreach (var notMe in teams.FindAll(o => o.id != team.id)) {
-                        if (!curses.ContainsKey(notMe.id)) curses.Add(notMe.id, 0);
-                        for (int i = 0; i <= curses[notMe.id]; i++) {
-                            // For each curse that is not on me, I add myself to the list
-                            teamPickList.Add(team.id);
-                        }
+                foreach(var _ in team.territory) {
+                    teamPickList.Add(team.id);
+                }
+
+                foreach (var notMe in teams.FindAll(o => o.id != team.id)) {
+                    if (!curses.ContainsKey(notMe.id)) curses.Add(notMe.id, 0);
+                    for (int i = 0; i <= curses[notMe.id]; i++) {
+                        // For each curse that is not on me, I add myself to the list
+                        teamPickList.Add(team.id);
                     }
                 }
             }
