@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DSharpPlus;
 using DSharpPlus.Entities;
+using Newtonsoft.Json;
 using SIGBOT.Components;
 
 namespace SIGBOT
@@ -76,6 +78,34 @@ namespace SIGBOT
                     {
                         await reacter.RevokeRoleAsync(roleOnReact[emoji]);
                     }
+                }
+            };
+
+            // Update role color postiion
+            client.GuildRoleCreated += async roleCreate => {
+
+                var assoc = new ColoredRoleAssociations();
+                var path = "out/colors.json";
+                if (File.Exists(path)) {
+                    while (true) {
+                        try {
+                            assoc = JsonConvert.DeserializeObject<ColoredRoleAssociations>(File.ReadAllText(path));
+                            break;
+                        }
+                        catch (IOException e) {
+                            Log.Warn("Waiting for file lock READ on " + path + "\n" + e.ToString());
+                            await Task.Delay(100);
+                        }
+                    }
+                }
+
+                var isOurs = assoc.FindAll(o => o.roleId == roleCreate.Role.Id).Count > 0;
+                if (isOurs) {
+                    var me = await roleCreate.Guild.GetMemberAsync(client.CurrentUser.Id);
+                    var myRole = me.Roles.OrderByDescending(o => o.Position).First();
+                    var index = myRole.Position - 1;
+                    await me.Guild.UpdateRolePositionAsync(roleCreate.Role, index);
+                    Log.Trace("Put role " + roleCreate.Role.Name + ":" + roleCreate.Role.Id + " to position " + index);
                 }
             };
 

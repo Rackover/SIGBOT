@@ -55,22 +55,16 @@ namespace SIGBOT.Commands
 
             if (fetchedRoles.Count() > 0) {
                 currentRole = fetchedRoles.ElementAt(0);
-                await guildMember.Guild.UpdateRoleAsync(currentRole, roleName, hoist:false, color:color);
+                await guildMember.Guild.UpdateRoleAsync(currentRole, roleName, hoist: false, color: color);
             }
             else {
-                currentRole = await guildMember.Guild.CreateRoleAsync(roleName, DSharpPlus.Permissions.None, color, hoist:false, mentionable:false);
+                currentRole = await guildMember.Guild.CreateRoleAsync(roleName, DSharpPlus.Permissions.None, color, hoist: false, mentionable: false);
             }
 
             await guildMember.GrantRoleAsync(currentRole);
 
             assoc.ClearFor(user.Id);
             assoc.Add(new ColoredRoleAssociation() { roleId = currentRole.Id, userId = user.Id });
-
-            var me = await message.Channel.Guild.GetMemberAsync(bot.client.CurrentUser.Id);
-            var myRole = me.Roles.OrderByDescending(o => o.Position).First();
-            var index = myRole.Position - 1;
-            await me.Guild.UpdateRolePositionAsync(currentRole, index);
-            Log.Trace("Put role " + currentRole.Name + ":"+currentRole.Id+" to position " + index);
 
             while (true) {
                 try {
@@ -84,20 +78,7 @@ namespace SIGBOT.Commands
             }
 
             await message.CreateReactionAsync(Extensions.ToDiscordEmoji("✅", bot));
-
-            /*
-            await Task.Run(async delegate {
-                guildMember = await message.Channel.Guild.GetMemberAsync(user.Id);
-                Log.Info("Roles are now : " + string.Join(",", guildMember.Roles.Select(o => o.Name)));
-                Log.Info("Looking for role of which ID is equal to [" + assoc[user.Id]?.roleId + "] in " + guildMember.Roles.Count() + " roles");
-                fetchedRoles = guildMember.Roles.Where(o => o.Id == assoc[user.Id]?.roleId);
-                Log.Info("Fetched " + fetchedRoles.Count() + " roles...");
-                currentRole = fetchedRoles.ElementAt(0);
-                await Task.Delay(2000);
-                await me.Guild.UpdateRolePositionAsync(currentRole, index);
-                Log.Info("Done setting position");
-            });
-            */
+            Log.Info("Done creating role!");
         }
     }
 }
