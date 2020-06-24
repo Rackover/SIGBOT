@@ -19,25 +19,11 @@ namespace SIGBOT.Commands
             
             string emojiUTF = args[0];
 
-            DiscordEmoji guildEmoji;
+            DiscordEmoji guildEmoji = Extensions.ToDiscordEmoji(emojiUTF, bot);
 
-            try {
-                guildEmoji = DiscordEmoji.FromName(bot.client, emojiUTF);
-            }
-            catch {
-                try {
-                    guildEmoji = DiscordEmoji.FromName(bot.client, string.Format(":{0}:", emojiUTF.Split(':')[1]));
-                }
-                catch {
-                    try {
-                        if (Emoji.All.ToList().FindAll(o => o.Sequence.AsString == emojiUTF).Count <= 0) throw;
-                        guildEmoji = DiscordEmoji.FromUnicode(bot.client, emojiUTF);
-                    }
-                    catch {
-                        await message.RespondAsync("Unknown emoji: [" + emojiUTF + "].\nEmblem could not be set.");
-                        return;
-                    }
-                }
+            if (guildEmoji == null) {
+                await message.RespondAsync("Unknown emoji: [" + emojiUTF + "].\nEmblem could not be set.");
+                return;
             }
 
             if (Program.game == null || Program.game.map == null) {

@@ -10,6 +10,8 @@ namespace SIGBOT
             Add("ping", new Commands.Ping());
             Add("listenreacts", new Commands.ListenRoles());
             Add("register", new Commands.RegisterRoleReact());
+            Add("makeme", new Commands.MakeMeColor());
+            Add("clearme", new Commands.ClearMeColor());
             Add("sigwarstart", new Commands.SigWarStart());
             Add("sigwarload", new Commands.SigWarLoad());
             Add("sigwaradvanceat", new Commands.SigWarAdvanceAt());

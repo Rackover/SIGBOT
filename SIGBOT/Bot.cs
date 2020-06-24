@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using DSharpPlus;
@@ -78,6 +79,8 @@ namespace SIGBOT
                 }
             };
 
+            client.ClientErrored += Client_ClientErrored;
+
             client.MessageCreated += async messageCreate =>
             {
                 foreach (var content in messageCreate.Message.Content.Split("\n"))
@@ -116,6 +119,12 @@ namespace SIGBOT
                 }
             };
 
+        }
+
+        private async Task Client_ClientErrored(DSharpPlus.EventArgs.ClientErrorEventArgs e)
+        {
+            Log.Err(e.Exception.ToString());
+            
         }
     }
 }
