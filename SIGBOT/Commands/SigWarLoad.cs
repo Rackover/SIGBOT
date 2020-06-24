@@ -17,11 +17,8 @@ namespace SIGBOT.Commands
             Log.Info("Loading SIGWAR...");
 
             // Rule used
-            var rule = new OneTakeRandomStreakCurse();
-            Log.Trace("Loaded rule...");
-
-            new Game(rule, true);
-            Log.Trace("Created game!");
+            new Game(null, true);
+            Log.Trace("Created game with rule: "+Program.game.rule.GetType().Name);
 
             Program.game.channel = message.Channel;
 
@@ -30,6 +27,7 @@ namespace SIGBOT.Commands
             await new SigWarStatus().Execute(bot, user, message, args);
 
             Log.Info("SIGWAR loaded. Register ticks to get it going with >SigWarAdvanceAt HH:MM:SS");
+
         }
     }
 }

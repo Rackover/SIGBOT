@@ -21,6 +21,16 @@ namespace SIGBOT.Components.War
 
         public readonly string directory = "out/warBot";
 
+        public static Dictionary<string, Rule> rules = new Dictionary<string, Rule>() {
+            { typeof(MultipleTryRandomStreak).Name, new MultipleTryRandomStreak() },
+            { typeof(MultipleTryTakeOne).Name, new MultipleTryTakeOne() },
+            { typeof(MultipleTryTakeOneChain).Name, new MultipleTryTakeOneChain() },
+            { typeof(MultipleTryTakeOneSnowBall).Name, new MultipleTryTakeOneSnowBall() },
+            { typeof(OneTakeOne).Name, new OneTakeOne() },
+            { typeof(OneTakeRandomStreak).Name, new OneTakeRandomStreak() },
+            { typeof(OneTakeRandomStreakCurse).Name, new OneTakeRandomStreakCurse() }
+        };
+
         public Game(Rule rule, bool load=false)
         {
             Program.game = this;
@@ -34,6 +44,7 @@ namespace SIGBOT.Components.War
             }
             else {
                 map = new Classroom.J002();
+                map.ruleName = rule.GetType().Name;
                 WriteToDisk();
             }
         }
@@ -65,6 +76,15 @@ namespace SIGBOT.Components.War
                 throw new Exception(e.ToString());
             }
             Log.Trace("Done!");
+
+            try {
+                rule = rules.Where(o => o.Key == map.ruleName).First().Value;
+            }
+            catch (InvalidOperationException) {
+                Log.Err("Rule does not exist! " + map.ruleName + ". Something is wrong.");
+                return;
+            }
+
             if (rule is ICurseable) {
                 ((ICurseable)rule).DeclareCursesResetted();
             }

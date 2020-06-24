@@ -18,6 +18,7 @@ namespace SIGBOT.Components.War
         static public readonly Vector2 LONG_VERTICAL_DESK = new Vector2(3, 5);
         
         public int step = 1;
+        public string ruleName = "";
         public Teams teams = new Teams();
         public Regions regions = new Regions();
         public Emblems emblems = new Emblems(); // Key is user ID
